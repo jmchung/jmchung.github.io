@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tomcat on </title>
+    <link>https://jmchung.github.io/tags/tomcat/</link>
+    <description>Recent content in Tomcat on </description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-US</language>
+    <lastBuildDate>Fri, 06 Sep 2013 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://jmchung.github.io/tags/tomcat/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>CentOS: Installing Apache Portable Runtime (APR) for Tomcat</title>
+      <link>https://jmchung.github.io/post/centos-installing-apache-portable-runtime-apr-for-tomcat/</link>
+      <pubDate>Fri, 06 Sep 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://jmchung.github.io/post/centos-installing-apache-portable-runtime-apr-for-tomcat/</guid>
+      <description>Introduction In Tomcat, the default HTTP Connector is BIO (Blocking I/O) connector with stability, low concurrency characteristics. To boost the Tomcat performance, the alternative ways either adapt NIO (Non-Blocking I/O) or APR (Apache Portable Runtime) connector. Especially, the APR performance is generally better than others when using SSL protocol. For more details on performance among these connectors can reference the Mike Noordermeer&amp;rsquo;s comparison.
+Prerequisites for installing APR  APR library APR-util library OpenSSL library  To begin our installation, we&amp;rsquo;ll first need to install the OpenSSL to the server because we install CentOS 6.</description>
+    </item>
+    
+  </channel>
+</rss>

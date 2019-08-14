@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Ec2 on </title>
+    <link>https://jmchung.github.io/tags/ec2/</link>
+    <description>Recent content in Ec2 on </description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-US</language>
+    <lastBuildDate>Tue, 27 Aug 2013 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://jmchung.github.io/tags/ec2/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Automatically Mount an EBS Volume Upon Starting an Amazon EC2 Linux Instance</title>
+      <link>https://jmchung.github.io/post/automatically-mount-an-ebs-volume-upon-starting-an-amazon-ec2-linux-instance/</link>
+      <pubDate>Tue, 27 Aug 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://jmchung.github.io/post/automatically-mount-an-ebs-volume-upon-starting-an-amazon-ec2-linux-instance/</guid>
+      <description>Brief note to create an EBS volume then mount it while CentOS 6.3 on EC2 at boot.
+ Show the space available on that filesystem before we mount the volume:
+# df -h Filesystem Size Used Avail Use% Mounted on /dev/xvde1 7.9G 4.0G 3.5G 54% / tmpfs 296M 0 296M 0% /dev/shm  After we attach the EBS volume to an EC2 instance:
+# fdisk -l Disk /dev/xvde: 9663 MB, 9663676416 bytes 255 heads, 63 sectors/track, 1174 cylinders Units = cylinders of 16065 * 512 = 8225280 bytes Sector size (logical/physical): 512 bytes / 512 bytes I/O size (minimum/optimal): 512 bytes / 512 bytes Disk identifier: 0x00076be1 Device Boot Start End Blocks Id System /dev/xvde1 * 1 1045 8387584 83 Linux /dev/xvde2 1045 1175 1048576 82 Linux swap / Solaris Disk /dev/xvdt: 107.</description>
+    </item>
+    
+  </channel>
+</rss>

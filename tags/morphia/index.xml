@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Morphia on </title>
+    <link>https://jmchung.github.io/tags/morphia/</link>
+    <description>Recent content in Morphia on </description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-US</language>
+    <lastBuildDate>Mon, 30 Dec 2013 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://jmchung.github.io/tags/morphia/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Map-Reduce with MongoDB and Morphia</title>
+      <link>https://jmchung.github.io/post/map-reduce-with-mongodb-and-morphia/</link>
+      <pubDate>Mon, 30 Dec 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://jmchung.github.io/post/map-reduce-with-mongodb-and-morphia/</guid>
+      <description>Just a note to record the usage of Map-Reduce with MongoDB and Morphia. Firstly, add the Morphia dependency.
+&amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.mongodb&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;mongo-java-driver&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;2.11.2&amp;lt;/version&amp;gt; &amp;lt;/dependency&amp;gt; &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.mongodb.morphia&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;morphia&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;0.105&amp;lt;/version&amp;gt; &amp;lt;/dependency&amp;gt;  The syntax of MapReduceCommand in Morphia as shown in MapReduceCommand.java:
+public MapReduceCommand( DBCollection inputCollection, String map, String reduce, String outputCollection, OutputType type, DBObject query) { // Compiled Code }  Here we want to group the sales amount (i.e., subtotal) of each county and exclude the null-subtotal from collection.</description>
+    </item>
+    
+    <item>
+      <title>Using MongoDB with Morphia</title>
+      <link>https://jmchung.github.io/post/using-mongodb-with-morphia/</link>
+      <pubDate>Thu, 15 Aug 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://jmchung.github.io/post/using-mongodb-with-morphia/</guid>
+      <description>Morphia - The JVM Object Document Mapper for MongoDB.
+ MongoDB is an extremely useful document-based database in NoSQL field. There are various drivers and client libraries in MongoDB Ecosystem and detailed manual to facilitate the developers to get into it shortly. In the beginning, we use MongoDB Java driver to manipulate CRUD operations on databases. Everything is running well but lots of BasicDBObject cause the code lack of readability and fluency.</description>
+    </item>
+    
+  </channel>
+</rss>

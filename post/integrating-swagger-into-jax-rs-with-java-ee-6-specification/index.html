@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en-US" />
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+    <title>Integrating Swagger into JAX-RS with Java EE 6 specification &middot; </title>
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="https://jmchung.github.io/favicon.ico" />
+    <link rel="canonical" href="https://jmchung.github.io/post/integrating-swagger-into-jax-rs-with-java-ee-6-specification/" />
+
+     <meta name="description" content="Introduction Swagger is an awesome framework we often used to describe, consume and visualize our RESTful web services. Typically, we use Tomcat with Jersey as " /> 
+
+     
+    
+    <meta name="twitter:card" content="summary_large_image"/>
+    <meta name="twitter:image" content="https://jmchung.github.io/img/stephen-zu-1193484-unsplash.jpg"/>
+    
+ 
+    <meta name="twitter:title" content="Integrating Swagger into JAX-RS with Java EE 6 specification"/>
+    <meta name="twitter:description" content="Introduction Swagger is an awesome framework we often used to describe, consume and visualize our RESTful web services. Typically, we use Tomcat with Jersey as "/>
+    <meta name="twitter:url" content="https://jmchung.github.io/post/integrating-swagger-into-jax-rs-with-java-ee-6-specification/" />
+    <meta name="twitter:site" content="@"/>
+
+    <meta property="og:site_name" content="" />
+    <meta property="og:title" content="Integrating Swagger into JAX-RS with Java EE 6 specification &middot; Code with :)" />
+    <meta property="og:url" content="https://jmchung.github.io/post/integrating-swagger-into-jax-rs-with-java-ee-6-specification/" />
+    
+
+    <meta property="og:type" content="article" />
+    <meta property="og:description" content="Introduction Swagger is an awesome framework we often used to describe, consume and visualize our RESTful web services. Typically, we use Tomcat with Jersey as " />
+
+    <meta property="article:published_time" content="2013-12-14T00:00:00Z" />
+    <meta property="article:tag" content="Java EE" /><meta property="article:tag" content="Swagger" /><meta property="article:tag" content="JAX-RS" /><meta property="article:tag" content="Jersey" />
+
+    <meta property="og:image" content="https://jmchung.github.io/img/stephen-zu-1193484-unsplash.jpg"/>
+
+
+    <meta name="generator" content="Hugo 0.53" />
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" type="text/css" href="https://jmchung.github.io/built/screen.css" />
+    <link rel="stylesheet" type="text/css" href="https://jmchung.github.io/css/casper-two.css" /> 
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.14.2/styles/default.min.css" />
+     <link rel="stylesheet" href="https://jmchung.github.io/css/custom.css" /> 
+
+     
+
+    
+<script type="text/javascript"
+        async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$'], ['\[\[','\]\]']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+    TeX: { equationNumbers: { autoNumber: "AMS" },
+         extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+});
+
+MathJax.Hub.Queue(function() {
+    
+    
+    
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<style>
+code.has-jax {
+    font: inherit;
+    font-size: 100%;
+    background: inherit;
+    border: inherit;
+    color: #515151;
+}
+</style>
+
+</head>
+
+
+<body class="post-template">
+  <div class="site-wrapper"> 
+
+<header class="site-header outer">
+  <div class="inner">
+    <nav class="site-nav">
+      <div class="site-nav-left">
+
+        <ul class="nav" role="menu">
+        
+        
+        
+            <li class="" role="menuitem">
+              <a href="https://jmchung.github.io/">Home</a>
+            </li>
+        
+            <li class="" role="menuitem">
+              <a href="https://jmchung.github.io/tags/">Tags</a>
+            </li>
+        
+      </ul></div>
+
+      <div class="site-nav-right">
+        <div class="social-links">
+                    
+
+                    
+
+                    <a class="social-link" href="https://github.com/jmchung" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a>
+
+                    <a class="social-link" href="https://www.linkedin.com/in/jmchung" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 50 512 512"><path d="M150.65,100.682c0,27.992-22.508,50.683-50.273,50.683c-27.765,0-50.273-22.691-50.273-50.683 C50.104,72.691,72.612,50,100.377,50C128.143,50,150.65,72.691,150.65,100.682z M143.294,187.333H58.277V462h85.017V187.333z M279.195,187.333h-81.541V462h81.541c0,0,0-101.877,0-144.181c0-38.624,17.779-61.615,51.807-61.615 c31.268,0,46.289,22.071,46.289,61.615c0,39.545,0,144.181,0,144.181h84.605c0,0,0-100.344,0-173.915 s-41.689-109.131-99.934-109.131s-82.768,45.369-82.768,45.369V187.333z" /></svg></a>
+
+                    
+        </div>  
+            
+      </div>
+
+    </nav>  
+
+  </div>
+</header>
+
+<main id="site-main" class="site-main outer" role="main">
+  <div class="inner">
+    
+      <article class="post-full post"> 
+    <header class="post-full-header">
+        <section class="post-full-meta">
+            <time class="post-full-meta-date" datetime="2013-12-14">14 December 2013</time>
+                <span class="date-divider">/</span> <a href="https://jmchung.github.io/tags/java-ee/">#Java EE</a>&nbsp;<a href="https://jmchung.github.io/tags/swagger/">#Swagger</a>&nbsp;
+        </section>
+        <h1 class="post-full-title">Integrating Swagger into JAX-RS with Java EE 6 specification</h1>
+    </header>
+    
+    <figure class="post-full-image" style="background-image: url(https://jmchung.github.io/img/stephen-zu-1193484-unsplash.jpg)">
+    </figure>
+
+    <section class="post-full-content">
+        <div class="kg-card-markdown">
+        
+
+<h2 id="introduction">Introduction</h2>
+
+<p>Swagger is an awesome framework we often used to describe, consume and visualize our RESTful web services. Typically, we use Tomcat with Jersey as a servlet, then specify the Swagger package and Swagger Configuration class into <code>web.xml</code>, finally annotate the resources, methods and models to complete the configurations. Our team recently built a Java EE 7 application for a RESTful web service. The goal of this article is to share our experiences of configuring Swagger in Glassfish 4 without a <code>web.xml</code>.</p>
+
+<!-- more -->
+
+<h2 id="create-maven-enterprise-application">Create Maven Enterprise Application</h2>
+
+<p>First of all, we create a new project through Maven Enterprise Application project template contains EAR, EJB and Web App archetypes call <code>swagger4javaee</code>.</p>
+
+<p><img src="https://jmchung.github.io/img/swagger-java-ee-2013-12-14.png" alt="NetBeans 7.4" /></p>
+
+<h2 id="add-swagger-jaxrs-dependency">Add Swagger-JAXRS Dependency</h2>
+
+<p>Adds a jaxrs-dependent swagger module for JAX-RS in <code>swagger4javaee-web/pom.xml</code>.</p>
+
+<pre><code class="language-xml">&lt;dependency&gt;
+    &lt;groupId&gt;com.wordnik&lt;/groupId&gt;
+    &lt;artifactId&gt;swagger-jaxrs_2.10&lt;/artifactId&gt;
+    &lt;version&gt;1.3.1&lt;/version&gt;
+    &lt;scope&gt;compile&lt;/scope&gt;
+&lt;/dependency&gt;
+</code></pre>
+
+<h2 id="specify-a-swagger-configuration-class">Specify a Swagger Configuration Class</h2>
+
+<p>We created a Java class called <code>SwaggerJaxrsConfig</code> in the <code>com.example.rest.service</code> package mainly refer to the lucasweble&rsquo;s <a href="http://stackoverflow.com/questions/19664888/how-can-i-configure-a-swagger-in-glassfish-4-without-a-web-xml?answertab=votes#tab-top">post</a> on stackoverflow. Then we can configure the <code>ApiVersion</code> and <code>BasePath</code> for Swagger.</p>
+
+<p><code>swagger4javaee-web/src/main/java/com/example/rest/service/SwaggerJaxrsConfig.java</code></p>
+
+<pre><code class="language-java">package com.example.rest.service;
+
+import com.wordnik.swagger.config.ConfigFactory;
+import com.wordnik.swagger.config.ScannerFactory;
+import com.wordnik.swagger.config.SwaggerConfig;
+import com.wordnik.swagger.jaxrs.config.DefaultJaxrsScanner;
+import com.wordnik.swagger.jaxrs.reader.DefaultJaxrsApiReader;
+import com.wordnik.swagger.reader.ClassReaders;
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+
+@WebServlet(name = &quot;SwaggerJaxrsConfig&quot;, loadOnStartup = 1)
+public class SwaggerJaxrsConfig extends HttpServlet {
+
+    @Override
+    public void init(ServletConfig servletConfig) {
+        try {
+            super.init(servletConfig);
+            SwaggerConfig swaggerConfig = new SwaggerConfig();
+            ConfigFactory.setConfig(swaggerConfig);
+            swaggerConfig.setBasePath(&quot;http://localhost:8080/swagger4javaee-web/rest&quot;);
+            swaggerConfig.setApiVersion(&quot;1.0.0&quot;);
+            ScannerFactory.setScanner(new DefaultJaxrsScanner());
+            ClassReaders.setReader(new DefaultJaxrsApiReader());
+        } catch (ServletException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+}
+</code></pre>
+
+<h2 id="annotate-rest-resources">Annotate REST resources</h2>
+
+<p>In the following example, a class named <code>HelloResource</code> is defined by producing JSON outputs by HTTP GET method. Moreover, we add stateless session beans functionalities by additional <code>@Stateless</code> annotation to leverage some advantages such as Injection.</p>
+
+<p><code>swagger4javaee-web/src/main/java/com/example/rest/hello/HelloResource.java</code></p>
+
+<pre><code class="language-java">package com.example.rest;
+
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiResponse;
+import com.wordnik.swagger.annotations.ApiResponses;
+import javax.ejb.Stateless;
+import javax.json.Json;
+import javax.json.JsonObject;
+import javax.persistence.criteria.Order;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+
+@Stateless
+@Path(&quot;/hello&quot;)
+@Api(value = &quot;/hello&quot;, description = &quot;Say Hello!&quot;)
+public class HelloResource {
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @ApiOperation(value = &quot;Say Hello World&quot;,
+            notes = &quot;Anything Else?&quot;)
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = &quot;OK&quot;),
+        @ApiResponse(code = 500, message = &quot;Something wrong in Server&quot;)})
+    public Response sayHello() {
+        JsonObject value = Json.createObjectBuilder()
+                .add(&quot;firstName&quot;, &quot;Jeremy&quot;)
+                .add(&quot;lastName&quot;, &quot;Chung&quot;)
+                .add(&quot;message&quot;, &quot;Hello World!&quot;)
+                .build();
+        return Response.status(200).entity(value).build();
+    }
+}
+</code></pre>
+
+<h2 id="specify-the-swagger-package">Specify the swagger package</h2>
+
+<p>Add the following class in <code>ApplicationConfig</code> let JAX-RS can respond to requests for the <code>Resource Listing</code> and <code>Api Declaration</code>.</p>
+
+<p><code>swagger4javaee-web/src/main/java/org/netbeans/rest/application/config/ApplicationConfig.java</code></p>
+
+<pre><code class="language-java">package org.netbeans.rest.application.config;
+
+import java.util.Set;
+import javax.ws.rs.core.Application;
+
+@javax.ws.rs.ApplicationPath(&quot;rest&quot;)
+public class ApplicationConfig extends Application {
+
+    @Override
+    public Set&lt;Class&lt;?&gt;&gt; getClasses() {
+        Set&lt;Class&lt;?&gt;&gt; resources = new java.util.HashSet&lt;&gt;();
+        resources.add(com.wordnik.swagger.jaxrs.listing.ApiListingResource.class);        
+        resources.add(com.wordnik.swagger.jaxrs.listing.ApiDeclarationProvider.class);
+        resources.add(com.wordnik.swagger.jaxrs.listing.ApiListingResourceJSON.class);
+        resources.add(com.wordnik.swagger.jaxrs.listing.ResourceListingProvider.class);
+        addRestResourceClasses(resources);
+        return resources;
+    }
+
+    /**
+     * Do not modify addRestResourceClasses() method.
+     * It is automatically populated with
+     * all resources defined in the project.
+     * If required, comment out calling this method in getClasses().
+     */
+    private void addRestResourceClasses(Set&lt;Class&lt;?&gt;&gt; resources) {
+        resources.add(com.example.rest.hello.HelloResource.class);
+    }
+  
+}
+</code></pre>
+
+<h2 id="test-our-configuration">Test our configuration</h2>
+
+<p>After Clean and Build our project, deploying the EAR to the Glassfish 4.0, we can view our resource listing here, <code>http://localhost:8080/swagger4javaee-web/rest/api-docs</code>:</p>
+
+<pre><code class="language-json">{
+  &quot;apiVersion&quot;: &quot;1.0.0&quot;,
+  &quot;swaggerVersion&quot;: &quot;1.2&quot;,
+  &quot;apis&quot;: [
+    {
+      &quot;path&quot;: &quot;\/hello&quot;,
+      &quot;description&quot;: &quot;Say Hello!&quot;
+    }
+  ]
+}
+</code></pre>
+
+<p>and any subsequent api declarations such as <code>/hello</code> and the JSON description for the corresponding url <code>http://localhost:8080/swagger4javaee-web/rest/api-docs/hello</code>:</p>
+
+<pre><code class="language-json">{
+  &quot;apiVersion&quot;: &quot;1.0.0&quot;,
+  &quot;swaggerVersion&quot;: &quot;1.2&quot;,
+  &quot;basePath&quot;: &quot;http:\/\/localhost:8080\/swagger4javaee-web\/rest&quot;,
+  &quot;resourcePath&quot;: &quot;\/hello&quot;,
+  &quot;apis&quot;: [
+    {
+      &quot;path&quot;: &quot;\/hello&quot;,
+      &quot;operations&quot;: [
+        {
+          &quot;method&quot;: &quot;GET&quot;,
+          &quot;summary&quot;: &quot;Say Hello World&quot;,
+          &quot;notes&quot;: &quot;Anything Else?&quot;,
+          &quot;type&quot;: &quot;void&quot;,
+          &quot;nickname&quot;: &quot;sayHello&quot;,
+          &quot;produces&quot;: [
+            &quot;application\/json&quot;
+          ],
+          &quot;parameters&quot;: [
+            
+          ],
+          &quot;responseMessages&quot;: [
+            {
+              &quot;code&quot;: 200,
+              &quot;message&quot;: &quot;OK&quot;
+            },
+            {
+              &quot;code&quot;: 500,
+              &quot;message&quot;: &quot;Something wrong in Server&quot;
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+</code></pre>
+
+<h2 id="supports-cross-domain-request">Supports Cross-Domain Request</h2>
+
+<p>In order to support the cross-domain request (e.g., jQuery) for our REST web services, we can easily achieve it by utilising <code>Filter</code> to set access control on ServletResponse Header.</p>
+
+<p><code>swagger4javaee-web/src/main/java/com/example/rest/service/HTML5CorsFilter.java</code></p>
+
+<pre><code class="language-java">import java.io.IOException;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.annotation.WebFilter;
+import javax.servlet.http.HttpServletResponse;
+
+@WebFilter(filterName = &quot;HTML5CorsFilter&quot;, urlPatterns = {&quot;/rest/*&quot;})
+public class HTML5CorsFilter implements javax.servlet.Filter {
+
+    @Override
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+        HttpServletResponse res = (HttpServletResponse) response;
+        res.addHeader(&quot;Access-Control-Allow-Origin&quot;, &quot;*&quot;);
+        res.addHeader(&quot;Access-Control-Allow-Methods&quot;, &quot;GET, POST, DELETE, PUT&quot;);
+        res.addHeader(&quot;Access-Control-Allow-Headers&quot;, &quot;Content-Type&quot;);
+        chain.doFilter(request, response);
+    }
+
+    @Override
+    public void init(FilterConfig filterConfig) throws ServletException {
+    }
+
+    @Override
+    public void destroy() {
+    }
+
+}
+</code></pre>
+
+<p><img src="https://jmchung.github.io/img/swagger-java-ee-2013-12-14-8.33.59.png" alt="Supports Cross-Domain Requests" /></p>
+
+<h2 id="integrate-with-swagger-ui">Integrate with Swagger UI</h2>
+
+<p>Here we leverage the <a href="https://github.com/wordnik/swagger-ui">Swagger UI</a> to produce, visualize and consume our RESTful services. First, we clone the project via <code>git clone <a href="https://github.com/wordnik/swagger-ui.git">https://github.com/wordnik/swagger-ui.git</a></code>. As shown below, we can found a <code>dist</code> folder which contains the pre-built files.</p>
+
+<p><img src="https://jmchung.github.io/img/swagger-java-ee-2013-12-14-ui-dist.png" alt="Swagger UI - dist" /></p>
+
+<p>Then copy all the pre-built files in <code>dist</code> folder and paste to the <code>webapp</code> folder (i.e., swagger4javaee/swagger4javaee-web/src/main/webapp) in our web project.</p>
+
+<p><img src="https://jmchung.github.io/img/swagger-java-ee-2013-12-14-dist-deploy.png" alt="Swagger UI - Copy dist - Paste to webapp" /></p>
+
+<p>Please note that we need to modify the url for api-docs in <code>index.html</code>, the value will be <code>http://localhost:8080/swagger4javaee-web/rest/api-docs</code> in this example.</p>
+
+<p><img src="https://jmchung.github.io/img/swagger-java-ee-2013-12-14-set-url.png" alt="Swagger UI - Set Url" /></p>
+
+<p>Finally, let&rsquo;s check the api-docs on <code>http://localhost:8080/swagger4javaee-web/</code> and consume the <code>hello</code> REST service you&rsquo;ll get the results as shown in the following figure.</p>
+
+<p><img src="https://jmchung.github.io/img/swagger-javaee-2013-12-15.png" alt="Supports Cross-Domain Requests" /></p>
+
+<h2 id="download-source-code">Download Source Code</h2>
+
+<pre><code class="language-shell">git clone https://github.com/jmchung/swagger4javaee.git
+</code></pre>
+
+<h2 id="references">References</h2>
+
+<ul>
+<li><a href="http://stackoverflow.com/questions/19664888/how-can-i-configure-a-swagger-in-glassfish-4-without-a-web-xml">How can I configure a Swagger in Glassfish 4 without a web.xml?</a>, by lucasweb.</li>
+<li><a href="https://github.com/ObjetDirect/java/tree/master/Spring/HTML5CorsFilter%20example">HTML5CorsFilter example</a>, by ObjetDirect.</li>
+</ul>
+    
+        </div>
+    </section>
+
+    <footer class="post-full-footer">
+      <section class="author-card">
+        <img class="author-profile-image" src="https://jmchung.github.io/img/10312671_10202997579792812_6153536628954061057_n.jpg" alt="Author" />
+        <section class="author-card-content">
+            <h4 class="author-card-name"><a href="https://jmchung.github.io/">Jen-Ming Chung</a></h4>
+                <p>Software Engineer</p>
+        </section>
+      </section>
+    </footer>
+</article>
+    
+    
+    
+
+<div id="disqus_thread"></div>
+<script>
+
+
+
+
+var disqus_config = function () {
+this.page.url = "https:\/\/jmchung.github.io\/post\/integrating-swagger-into-jax-rs-with-java-ee-6-specification\/";  
+this.page.identifier = "https:\/\/jmchung.github.io\/post\/integrating-swagger-into-jax-rs-with-java-ee-6-specification\/"; 
+};
+
+(function() { 
+var d = document, s = d.createElement('script');
+s.src = 'https://octopressongithub.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  </div>
+</main>
+
+
+<aside class="read-next outer">
+  <div class="inner">
+    <div class="read-next-feed">      
+      
+<article class="read-next-card" 
+            style="background-image: url(https://jmchung.github.io/img/blog-cover.jpg);" >
+    <header class="read-next-card-header">
+        <small class="read-next-card-header-sitetitle">&mdash; Code with :) &mdash;</small>
+        
+        <h3 class="read-next-card-header-title"><a href="https://jmchung.github.io/tags/java-ee/">#Java EE</a></h3>
+    </header>
+    <div class="read-next-divider"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 14.5s2 3 5 3 5.5-2.463 5.5-5.5S21 6.5 18 6.5c-5 0-7 11-12 11C2.962 17.5.5 15.037.5 12S3 6.5 6 6.5s4.5 3.5 4.5 3.5"/></svg>
+    </div>
+
+    <div class="read-next-card-content">
+      
+        <ul>
+          <li><a href="https://jmchung.github.io/post/perceptron-learning-algorithm/">Perceptron Learning Algorithm</a></li>            
+        
+          <li><a href="https://jmchung.github.io/post/how-to-customise-the-jackson-json-objectmapper-in-java-ee-enterprise-application/">How to Customise the Jackson JSON ObjectMapper in Java EE Enterprise Application</a></li>            
+        
+          <li><a href="https://jmchung.github.io/post/converting-isodate-from-mongodb/">Converting ISODate from MongoDB</a></li>            
+        
+          <li><a href="https://jmchung.github.io/post/centos-installing-apache-portable-runtime-apr-for-tomcat/">CentOS: Installing Apache Portable Runtime (APR) for Tomcat</a></li>            
+        </ul>
+    </div>
+    <footer class="read-next-card-footer">
+      
+        <a href="https://jmchung.github.io/tags/java-ee/">See all related posts →</a>
+    </footer>
+</article>
+
+
+      
+      <article class="post-card post"> 
+    
+    <a class="post-card-image-link" href="https://jmchung.github.io/post/using-the-mongodb-aggregation-framework-via-mongodb-asynchronous-java-driver/">
+      <div class="post-card-image" style="background-image: url(https://jmchung.github.io/img/kelly-sikkema-1156438-unsplash.jpg)"></div>
+    </a>
+    
+
+    <div class="post-card-content">
+      <a class="post-card-content-link" href="https://jmchung.github.io/post/using-the-mongodb-aggregation-framework-via-mongodb-asynchronous-java-driver/">
+          <header class="post-card-header">
+              <span class="post-card-tags">
+              #Java 
+              #MongoDB  </span>
+              
+              <h2 class="post-card-title">Using the MongoDB Aggregation Framework via MongoDB Asynchronous Java Driver</h2>
+          </header>
+          <section class="post-card-excerpt">
+              
+                <p>Introduction I often use Morphia in projects for mapping Java objects to/from MongoDB and it&rsquo;s Query API instead of building the complex DBObject query. However, the current version (v. 0.105) without aggregate command support. Fortunately, the MongoDB Asynchronous Java Driver provides the aggregate builder to construct complex pipelines of operators in fluent way. As usual, the following paragraphs will express some basic usages of mongodb-async-driver in aggregation pipeline framework through an example. ...  </p>
+              
+          </section>
+      </a>
+
+      <footer class="post-card-meta">
+          <img class="author-profile-image" src="https://jmchung.github.io/img/10312671_10202997579792812_6153536628954061057_n.jpg" alt="Author" />
+          <span class="post-card-author"><a href="https://jmchung.github.io/">Jen-Ming Chung</a></span>
+      </footer>
+    </div>
+</article>
+      
+      
+      <article class="post-card post"> 
+    
+    <a class="post-card-image-link" href="https://jmchung.github.io/post/how-to-solve-jsoup-does-not-get-complete-html-document/">
+      <div class="post-card-image" style="background-image: url(https://jmchung.github.io/img/keri-liwi-1291412-unsplash.jpg)"></div>
+    </a>
+    
+
+    <div class="post-card-content">
+      <a class="post-card-content-link" href="https://jmchung.github.io/post/how-to-solve-jsoup-does-not-get-complete-html-document/">
+          <header class="post-card-header">
+              <span class="post-card-tags">
+              #Java 
+              #jsoup  </span>
+              
+              <h2 class="post-card-title">How to solve jsoup does not get complete HTML document</h2>
+          </header>
+          <section class="post-card-excerpt">
+              
+                <p>jsoup: Java HTML Parser.
+ Where crawling web pages by using jsoup, it only returns parts of HTML content if the document size is too large, e.g., the below example transferred over 6MB content. According to the jsoup&rsquo;s API Reference the default maximum is 1MB. So that we can set jsoup connection with maxBodySize to zero to get rid of this limitation and may accompany with sufficient timeout property. ...  </p>
+              
+          </section>
+      </a>
+
+      <footer class="post-card-meta">
+          <img class="author-profile-image" src="https://jmchung.github.io/img/10312671_10202997579792812_6153536628954061057_n.jpg" alt="Author" />
+          <span class="post-card-author"><a href="https://jmchung.github.io/">Jen-Ming Chung</a></span>
+      </footer>
+    </div>
+</article>
+      
+    </div>
+  </div>
+</aside>
+
+<div class="floating-header">
+  <div class="floating-header-logo">
+    <a href="https://jmchung.github.io/">
+      
+      <span></span>
+    </a>
+  </div>
+  <span class="floating-header-divider">&mdash;</span>
+  <div class="floating-header-title">Integrating Swagger into JAX-RS with Java EE 6 specification</div>
+  
+  <progress class="progress" value="0">
+    <div class="progress-container">
+      <span class="progress-bar"></span>
+    </div>
+  </progress>
+</div>
+
+
+
+<footer class="site-footer outer">
+  <div class="site-footer-content inner">
+    <section class="copyright" style="line-height: 1.3em;">
+      <a href="https://jmchung.github.io/"></a> © 2019 <br>
+      
+    </section>
+    <nav class="site-footer-nav">
+        <a href="https://jmchung.github.io/">Latest Posts</a>
+        
+        
+        <a href="https://github.com/jmchung" target="_blank" rel="noopener">Github</a>
+        <a href="https://www.linkedin.com/in/jmchung" target="_blank" rel="noopener">LinkedIn</a>
+        
+    </nav>  
+  </div>
+</footer>
+
+</div>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.14.2/highlight.min.js"></script>
+<script type="text/javascript" src="//code.jquery.com/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="https://jmchung.github.io/js/jquery.fitvids.js"></script>
+
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+    <script>
+
+
+
+
+
+$(document).ready(function () {
+    
+    var $postContent = $(".post-full-content");
+    $postContent.fitVids();
+    
+
+    var progressBar = document.querySelector('progress');
+    var header = document.querySelector('.floating-header');
+    var title = document.querySelector('.post-full-title');
+
+    var lastScrollY = window.scrollY;
+    var lastWindowHeight = window.innerHeight;
+    var lastDocumentHeight = $(document).height();
+    var ticking = false;
+
+    function onScroll() {
+        lastScrollY = window.scrollY;
+        requestTick();
+    }
+
+    function onResize() {
+        lastWindowHeight = window.innerHeight;
+        lastDocumentHeight = $(document).height();
+        requestTick();
+    }
+
+    function requestTick() {
+        if (!ticking) {
+            requestAnimationFrame(update);
+        }
+        ticking = true;
+    }
+
+    function update() {
+        var trigger = title.getBoundingClientRect().top + window.scrollY;
+        var triggerOffset = title.offsetHeight + 35;
+        var progressMax = lastDocumentHeight - lastWindowHeight;
+
+        
+        if (lastScrollY >= trigger + triggerOffset) {
+            header.classList.add('floating-active');
+        } else {
+            header.classList.remove('floating-active');
+        }
+
+        progressBar.setAttribute('max', progressMax);
+        progressBar.setAttribute('value', lastScrollY);
+
+        ticking = false;
+    }
+
+    window.addEventListener('scroll', onScroll, {passive: true});
+    window.addEventListener('resize', onResize, false);
+
+    update();
+});
+</script>
+</body></html>

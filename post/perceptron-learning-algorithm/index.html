@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en-US" />
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+    <title>Perceptron Learning Algorithm &middot; </title>
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="https://jmchung.github.io/favicon.ico" />
+    <link rel="canonical" href="https://jmchung.github.io/post/perceptron-learning-algorithm/" />
+
+     <meta name="description" content="This note illustrates the use of perceptron learning algorithm to identify the discriminant function with weight to partition the linearly separable data step-b" /> 
+
+     
+    
+    <meta name="twitter:card" content="summary_large_image"/>
+    <meta name="twitter:image" content="https://jmchung.github.io/img/roman-mager-59976-unsplash.jpg"/>
+    
+ 
+    <meta name="twitter:title" content="Perceptron Learning Algorithm"/>
+    <meta name="twitter:description" content="This note illustrates the use of perceptron learning algorithm to identify the discriminant function with weight to partition the linearly separable data step-b"/>
+    <meta name="twitter:url" content="https://jmchung.github.io/post/perceptron-learning-algorithm/" />
+    <meta name="twitter:site" content="@"/>
+
+    <meta property="og:site_name" content="" />
+    <meta property="og:title" content="Perceptron Learning Algorithm &middot; Code with :)" />
+    <meta property="og:url" content="https://jmchung.github.io/post/perceptron-learning-algorithm/" />
+    
+
+    <meta property="og:type" content="article" />
+    <meta property="og:description" content="This note illustrates the use of perceptron learning algorithm to identify the discriminant function with weight to partition the linearly separable data step-b" />
+
+    <meta property="article:published_time" content="2019-05-07T00:51:00&#43;08:00" />
+    <meta property="article:tag" content="Machine Learning" /><meta property="article:tag" content="Neural Networks" />
+
+    <meta property="og:image" content="https://jmchung.github.io/img/roman-mager-59976-unsplash.jpg"/>
+
+
+    <meta name="generator" content="Hugo 0.53" />
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" type="text/css" href="https://jmchung.github.io/built/screen.css" />
+    <link rel="stylesheet" type="text/css" href="https://jmchung.github.io/css/casper-two.css" /> 
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.14.2/styles/default.min.css" />
+     <link rel="stylesheet" href="https://jmchung.github.io/css/custom.css" /> 
+
+     
+
+    
+<script type="text/javascript"
+        async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$'], ['\[\[','\]\]']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+    TeX: { equationNumbers: { autoNumber: "AMS" },
+         extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+});
+
+MathJax.Hub.Queue(function() {
+    
+    
+    
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<style>
+code.has-jax {
+    font: inherit;
+    font-size: 100%;
+    background: inherit;
+    border: inherit;
+    color: #515151;
+}
+</style>
+
+</head>
+
+
+<body class="post-template">
+  <div class="site-wrapper"> 
+
+<header class="site-header outer">
+  <div class="inner">
+    <nav class="site-nav">
+      <div class="site-nav-left">
+
+        <ul class="nav" role="menu">
+        
+        
+        
+            <li class="" role="menuitem">
+              <a href="https://jmchung.github.io/">Home</a>
+            </li>
+        
+            <li class="" role="menuitem">
+              <a href="https://jmchung.github.io/tags/">Tags</a>
+            </li>
+        
+      </ul></div>
+
+      <div class="site-nav-right">
+        <div class="social-links">
+                    
+
+                    
+
+                    <a class="social-link" href="https://github.com/jmchung" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a>
+
+                    <a class="social-link" href="https://www.linkedin.com/in/jmchung" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 50 512 512"><path d="M150.65,100.682c0,27.992-22.508,50.683-50.273,50.683c-27.765,0-50.273-22.691-50.273-50.683 C50.104,72.691,72.612,50,100.377,50C128.143,50,150.65,72.691,150.65,100.682z M143.294,187.333H58.277V462h85.017V187.333z M279.195,187.333h-81.541V462h81.541c0,0,0-101.877,0-144.181c0-38.624,17.779-61.615,51.807-61.615 c31.268,0,46.289,22.071,46.289,61.615c0,39.545,0,144.181,0,144.181h84.605c0,0,0-100.344,0-173.915 s-41.689-109.131-99.934-109.131s-82.768,45.369-82.768,45.369V187.333z" /></svg></a>
+
+                    
+        </div>  
+            
+      </div>
+
+    </nav>  
+
+  </div>
+</header>
+
+<main id="site-main" class="site-main outer" role="main">
+  <div class="inner">
+    
+      <article class="post-full post"> 
+    <header class="post-full-header">
+        <section class="post-full-meta">
+            <time class="post-full-meta-date" datetime="2019-05-07">7 May 2019</time>
+                <span class="date-divider">/</span> <a href="https://jmchung.github.io/tags/machine-learning/">#Machine Learning</a>&nbsp;<a href="https://jmchung.github.io/tags/neural-networks/">#Neural Networks</a>&nbsp;
+        </section>
+        <h1 class="post-full-title">Perceptron Learning Algorithm</h1>
+    </header>
+    
+    <figure class="post-full-image" style="background-image: url(https://jmchung.github.io/img/roman-mager-59976-unsplash.jpg)">
+    </figure>
+
+    <section class="post-full-content">
+        <div class="kg-card-markdown">
+        
+
+<p>This note illustrates the use of perceptron learning algorithm to identify the discriminant function with weight to partition the linearly separable data step-by-step. The material mainly outlined in Kröse et al. [1] work, and the example is from the Janecek&rsquo;s [2] slides.</p>
+
+<p>In machine learning, the perceptron is an supervised learning algorithm used as a binary classifier, which is used to identify whether a input data belongs to a specific group (class) or not. Note that the convergence of the perceptron is only guaranteed if
+the two classes are linearly separable, otherwise the perceptron will update the weights continuously.</p>
+
+
+<figure >
+    
+        <img src="https://jmchung.github.io/img/hl_classif_separation.png" alt="Structure of Measured Data by H.Lohninger from " width="100%"/>
+    
+    
+    <figcaption class="imageCaption">
+        <p>
+        Structure of Measured Data by H.Lohninger from 
+        <a href="http://www.vias.org/tmdatanaleng/cc_data_structure.html"> 
+            Teach/Me Data Analysis
+        </a> 
+        </p> 
+    </figcaption>
+    
+</figure>
+
+
+
+<h3 id="perceptron">Perceptron</h3>
+
+<p>The perceptron is a single layer feed-forward neural network that the inputs are fed directly to the outputs with a series of weights. In the following figure, the simplest kind of neural network which consists of two inputs $x_1, x_2$ and a single output $y$.</p>
+
+
+<figure >
+    
+        <img src="https://jmchung.github.io/img/2019-05-05-single-layer.png" alt="Single layer network with one output and two inputs" width="25%"/>
+    
+    
+    <figcaption class="imageCaption">
+        <p>
+        Single layer network with one output and two inputs
+        <a href="https://www.infor.uva.es/~teodoro/neuro-intro.pdf"> 
+            [1]
+        </a> 
+        </p> 
+    </figcaption>
+    
+</figure>
+
+
+
+<p>The sum of the products of the weights and the inputs plus the bias is the input to the neuron:</p>
+
+<p>$$ y = \mathcal{F} \left( \sum_{i=1}^{2} w_i x_i + \theta \right)$$</p>
+
+<p>If the output value of activation function $ \mathcal{F} $ is above some threshold such as 0, then the neuron fires and the activated value is 1 in our example; otherwise the value will be -1 for the deactivated value. The simple network can now be used for a classification task with linearly separable data.</p>
+
+<script type="math/tex; mode=display">
+\mathcal{F}(s) =
+\begin{cases}
+1  & \text{if $s > $ 0} \\
+-1 & \text{otherwise.}
+\end{cases}
+</script>
+
+<p>The line to separate the two classes is given by the below equation:</p>
+
+<p>$$ w_1x_1 + w_2x_2 + \theta = 0 $$</p>
+
+<h3 id="perceptron-learning-algorithm">Perceptron Learning Algorithm</h3>
+
+<p>First of all, we assumed that the data set consisted of two linearly separable classes $ A $ and $ B $; let $ d(n) $ be the desired output for each class [2]:</p>
+
+<script type="math/tex; mode=display">
+d(n) =
+\begin{cases}
++1  & \text{if $x(n) \in$ set A} \\
+-1  & \text{if $x(n) \in$ set B}
+\end{cases}
+</script>
+
+<p>the network output is the dot product [10] of two vectors $ (w, x) $ could be calculated as below, where $ w^T $ is the row vector obtained by <code>transposing</code> <code>$ w $</code>  :</p>
+
+<script type="math/tex; mode=display">
+w = [w_0, w_1, w_2, \ldots , w_n] \\
+x = [1, x_1, x_2, \ldots , x_n] \\
+w \cdot x = w^Tx = \sum_{i=0}^{n} w_i \ast x_i = \left| \vec{w} \right| \left| \vec{x} \right| \cos(\theta) 
+</script>
+
+<p>We know the value of $ \cos(\theta) $ is <code>positive</code> with the $ \theta $ between $ 0 $ and $ 90 $ degrees, and <code>negative</code> between $ 90 $ and $ 180 $ degrees. Hence we can measure the angle between vectors, i.e., $ \theta $, to adjust the weights to the right direction if we met the wrong classification [9].</p>
+
+
+<figure >
+    
+        <img src="https://jmchung.github.io/img/unitCircle.gif" alt="Cosine Degrees from" width="100%"/>
+    
+    
+    <figcaption class="imageCaption">
+        <p>
+        Cosine Degrees from
+        <a href="http://programmedlessons.org/VectorLessons/vch07/vch07_5.html"> 
+            Cosine of 90 degrees
+        </a> 
+        </p> 
+    </figcaption>
+    
+</figure>
+
+
+
+<p>the data set is regarded as the training data to train the perceptron, and let $ w_0 = \theta $ and $ x_0 = 1 $ for convenience in the illustration. In addition, introducing the learning rate $ \eta $, which is a sufficient small positive number to avoid causing drastic changes to classification performance. So we do nothing if the perceptron responds correctly, otherwise we update the weight vector by:</p>
+
+<p>$$ w_i = w_i + \eta d(n) x_i (n) $$</p>
+
+<p>repeat the above procedure until the entire input data is classified correctly.</p>
+
+<h3 id="perceptron-learning-example">Perceptron Learning Example</h3>
+
+<p>Following example is based on [2], just add more details and illustrated the change of decision boundary line. A perceptron is initialized with the following values: $ \eta = 0.2 $ and weight vector $ w = (0, 1, 0.5)$. The discriminant function can be calculated:
+$$ 0 = w_0x_0 + w_1x_1 + w_2x_2 = 0 + x_1 + 0.5x_2 $$
+$$ \Rightarrow x_2 = -2 x_1 $$</p>
+
+<p>the first sample $ A $, with values $ x_1 = 1 , x_2 = 1 $ and desired output is $ d(n) = + 1$, the $ w^Tx &gt; 0 $, so that the classification of A is correct and thus no change required.</p>
+
+
+<figure >
+    
+        <img src="https://jmchung.github.io/img/2019-05-05-perceptron-output-1.png"  width="70%"/>
+    
+    
+</figure>
+
+
+
+<p>When revealing point $ B $ with values $ x_1 = 2 , x_2 = -2 $ the network output $ +1 $, while the target value $ d(n) = -1$. The weight will be updated when the classification is incorrect.</p>
+
+<script type="math/tex; mode=display">
+w_0 = 0 - 0.2 \ast 1 = - 0.2\\
+w_1 = 1 - 0.2 \ast 2 = 0.6 \\
+w_2 = 0.5 - 0.2 \ast -2 = 0.9 \\
+
+w = 
+\begin{pmatrix}
+0 \\
+1 \\
+0.5
+\end{pmatrix} 
+
+\Longrightarrow
+
+\begin{pmatrix}
+-0.2 \\
+0.6 \\
+0.9
+\end{pmatrix} 
+</script>
+
+
+<figure >
+    
+        <img src="https://jmchung.github.io/img/2019-05-05-perceptron-output-2.png"  width="70%"/>
+    
+    
+</figure>
+
+
+
+<p>The below diagram shows the original discriminant function and after the weight updated.</p>
+
+
+<figure >
+    
+        <img src="https://jmchung.github.io/img/2019-05-05-perceptron-output-3.png"  width="70%"/>
+    
+    
+</figure>
+
+
+
+<p>For further implementations, please check the previous works [4-7] to have more details about how to apply the above learning algorithm on <a href="https://archive.ics.uci.edu/ml/datasets/iris">Iris</a> data set.</p>
+
+<h3 id="video-resources">Video Resources</h3>
+
+
+<iframe src="https://www.youtube.com/embed/5g0TPrxKK6o?start="
+        style="position: absolute; top: 0; left: 0; width: 560; height: 315;"
+        allowfullscreen frameborder="0"
+        title="YouTube Video">
+</iframe>
+
+
+
+<iframe src="https://www.youtube.com/embed/dXuNAkHsos4?start="
+        style="position: absolute; top: 0; left: 0; width: 560; height: 315;"
+        allowfullscreen frameborder="0"
+        title="YouTube Video">
+</iframe>
+
+
+<h3 id="references">References</h3>
+
+<ol>
+<li>Ben Kröse and Patrick van der Smagt, <a href="https://www.infor.uva.es/~teodoro/neuro-intro.pdf">An Introduction to Neural Networks</a>, 1996.</li>
+<li>Jakob Janecek, <a href="http://130.243.105.49/~lilien/ml/seminars/2007_02_01b-Janecek-Perceptron.pdf">The Simple Perceptron</a>, Feb 1, 2007.</li>
+<li>Akshay Chandra Lagandula, <a href="https://towardsdatascience.com/perceptron-learning-algorithm-d5db0deab975">Perceptron Learning Algorithm: A Graphical Explanation Of Why It Works</a>, Aug 23, 2018.</li>
+<li>Yeh James, <a href="https://medium.com/jameslearningnote/%E8%B3%87%E6%96%99%E5%88%86%E6%9E%90-%E6%A9%9F%E5%99%A8%E5%AD%B8%E7%BF%92-%E7%AC%AC3-2%E8%AC%9B-%E7%B7%9A%E6%80%A7%E5%88%86%E9%A1%9E-%E6%84%9F%E7%9F%A5%E5%99%A8-perceptron-%E4%BB%8B%E7%B4%B9-84d8b809f866">[資料分析&amp;機器學習] 第3.2講：線性分類-感知器(Perceptron) 介紹</a></li>
+<li>kindresh, <a href="https://ikrock.blog/2017/07/25/first-blog-post/">Perceptron Learning Algorithm</a></li>
+<li>Sebastian Raschka, <a href="https://sebastianraschka.com/Articles/2015_singlelayer_neurons.html">Single-Layer Neural Networks and Gradient Descent</a></li>
+<li>Brian Faure
+, <a href="https://www.youtube.com/watch?v=OVHc-7GYRo4">Single-Layer Perceptron: Background &amp; Python Code</a></li>
+<li><a href="https://www.cs.utah.edu/~zhe/pdf/lec-10-perceptron-upload.pdf">The Perceptron Algorithm</a></li>
+<li><a href="https://rhadow.github.io/2016/02/24/ml-lecture-2/">Rhadow&rsquo;s Tech Note - 機器學習基石-第二講筆記</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Dot_product">Dot product</a></li>
+</ol>
+    
+        </div>
+    </section>
+
+    <footer class="post-full-footer">
+      <section class="author-card">
+        <img class="author-profile-image" src="https://jmchung.github.io/img/10312671_10202997579792812_6153536628954061057_n.jpg" alt="Author" />
+        <section class="author-card-content">
+            <h4 class="author-card-name"><a href="https://jmchung.github.io/">Jen-Ming Chung</a></h4>
+                <p>Software Engineer</p>
+        </section>
+      </section>
+    </footer>
+</article>
+    
+    
+    
+
+<div id="disqus_thread"></div>
+<script>
+
+
+
+
+var disqus_config = function () {
+this.page.url = "https:\/\/jmchung.github.io\/post\/perceptron-learning-algorithm\/";  
+this.page.identifier = "https:\/\/jmchung.github.io\/post\/perceptron-learning-algorithm\/"; 
+};
+
+(function() { 
+var d = document, s = d.createElement('script');
+s.src = 'https://octopressongithub.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  </div>
+</main>
+
+
+<aside class="read-next outer">
+  <div class="inner">
+    <div class="read-next-feed">      
+      
+<article class="read-next-card" 
+            style="background-image: url(https://jmchung.github.io/img/blog-cover.jpg);" >
+    <header class="read-next-card-header">
+        <small class="read-next-card-header-sitetitle">&mdash; Code with :) &mdash;</small>
+        
+        <h3 class="read-next-card-header-title"><a href="https://jmchung.github.io/tags/machine-learning/">#Machine Learning</a></h3>
+    </header>
+    <div class="read-next-divider"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 14.5s2 3 5 3 5.5-2.463 5.5-5.5S21 6.5 18 6.5c-5 0-7 11-12 11C2.962 17.5.5 15.037.5 12S3 6.5 6 6.5s4.5 3.5 4.5 3.5"/></svg>
+    </div>
+
+    <div class="read-next-card-content">
+      
+        <ul>
+          <li><a href="https://jmchung.github.io/post/integrating-swagger-into-jax-rs-with-java-ee-6-specification/">Integrating Swagger into JAX-RS with Java EE 6 specification</a></li>            
+        
+          <li><a href="https://jmchung.github.io/post/converting-isodate-from-mongodb/">Converting ISODate from MongoDB</a></li>            
+        
+          <li><a href="https://jmchung.github.io/post/automatically-mount-an-ebs-volume-upon-starting-an-amazon-ec2-linux-instance/">Automatically Mount an EBS Volume Upon Starting an Amazon EC2 Linux Instance</a></li>            
+        
+          <li><a href="https://jmchung.github.io/post/running-hadoop-on-centos-6-multi-node-cluster/">Running Hadoop on CentOS 6 (Multi-Node Cluster)</a></li>            
+        </ul>
+    </div>
+    <footer class="read-next-card-footer">
+      
+        <a href="https://jmchung.github.io/tags/machine-learning/">See all related posts →</a>
+    </footer>
+</article>
+
+
+      
+      
+      <article class="post-card post"> 
+    
+    <a class="post-card-image-link" href="https://jmchung.github.io/post/using-amazon-s3-as-a-private-maven-repository/">
+      <div class="post-card-image" style="background-image: url(https://jmchung.github.io/img/tags.jpg)"></div>
+    </a>
+    
+
+    <div class="post-card-content">
+      <a class="post-card-content-link" href="https://jmchung.github.io/post/using-amazon-s3-as-a-private-maven-repository/">
+          <header class="post-card-header">
+              <span class="post-card-tags">
+              #AWS 
+              #Maven  </span>
+              
+              <h2 class="post-card-title">Using Amazon S3 as a Private Maven Repository</h2>
+          </header>
+          <section class="post-card-excerpt">
+              
+                <p>This article is a quick tutorial to setup a private maven repository using Amazon S3 instead of Nexus or Artifactory.
+First we need to create a S3 bucket used to store two types of maven artifacts: stores two types of artifacts: releases and snapshots.
+repository.example.com/[snapshots, releases]  Since we want a private repository, we can securely control access to this bucket for our users by leveraging AWS Identity and Access Management (IAM). ...  </p>
+              
+          </section>
+      </a>
+
+      <footer class="post-card-meta">
+          <img class="author-profile-image" src="https://jmchung.github.io/img/10312671_10202997579792812_6153536628954061057_n.jpg" alt="Author" />
+          <span class="post-card-author"><a href="https://jmchung.github.io/">Jen-Ming Chung</a></span>
+      </footer>
+    </div>
+</article>
+      
+    </div>
+  </div>
+</aside>
+
+<div class="floating-header">
+  <div class="floating-header-logo">
+    <a href="https://jmchung.github.io/">
+      
+      <span></span>
+    </a>
+  </div>
+  <span class="floating-header-divider">&mdash;</span>
+  <div class="floating-header-title">Perceptron Learning Algorithm</div>
+  
+  <progress class="progress" value="0">
+    <div class="progress-container">
+      <span class="progress-bar"></span>
+    </div>
+  </progress>
+</div>
+
+
+
+<footer class="site-footer outer">
+  <div class="site-footer-content inner">
+    <section class="copyright" style="line-height: 1.3em;">
+      <a href="https://jmchung.github.io/"></a> © 2019 <br>
+      
+    </section>
+    <nav class="site-footer-nav">
+        <a href="https://jmchung.github.io/">Latest Posts</a>
+        
+        
+        <a href="https://github.com/jmchung" target="_blank" rel="noopener">Github</a>
+        <a href="https://www.linkedin.com/in/jmchung" target="_blank" rel="noopener">LinkedIn</a>
+        
+    </nav>  
+  </div>
+</footer>
+
+</div>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.14.2/highlight.min.js"></script>
+<script type="text/javascript" src="//code.jquery.com/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="https://jmchung.github.io/js/jquery.fitvids.js"></script>
+
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+    <script>
+
+
+
+
+
+$(document).ready(function () {
+    
+    var $postContent = $(".post-full-content");
+    $postContent.fitVids();
+    
+
+    var progressBar = document.querySelector('progress');
+    var header = document.querySelector('.floating-header');
+    var title = document.querySelector('.post-full-title');
+
+    var lastScrollY = window.scrollY;
+    var lastWindowHeight = window.innerHeight;
+    var lastDocumentHeight = $(document).height();
+    var ticking = false;
+
+    function onScroll() {
+        lastScrollY = window.scrollY;
+        requestTick();
+    }
+
+    function onResize() {
+        lastWindowHeight = window.innerHeight;
+        lastDocumentHeight = $(document).height();
+        requestTick();
+    }
+
+    function requestTick() {
+        if (!ticking) {
+            requestAnimationFrame(update);
+        }
+        ticking = true;
+    }
+
+    function update() {
+        var trigger = title.getBoundingClientRect().top + window.scrollY;
+        var triggerOffset = title.offsetHeight + 35;
+        var progressMax = lastDocumentHeight - lastWindowHeight;
+
+        
+        if (lastScrollY >= trigger + triggerOffset) {
+            header.classList.add('floating-active');
+        } else {
+            header.classList.remove('floating-active');
+        }
+
+        progressBar.setAttribute('max', progressMax);
+        progressBar.setAttribute('value', lastScrollY);
+
+        ticking = false;
+    }
+
+    window.addEventListener('scroll', onScroll, {passive: true});
+    window.addEventListener('resize', onResize, false);
+
+    update();
+});
+</script>
+</body></html>

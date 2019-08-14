@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en-US" />
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+    <title>Map-Reduce with MongoDB and Morphia &middot; </title>
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="https://jmchung.github.io/favicon.ico" />
+    <link rel="canonical" href="https://jmchung.github.io/post/map-reduce-with-mongodb-and-morphia/" />
+
+     <meta name="description" content="Just a note to record the usage of Map-Reduce with MongoDB and Morphia. Firstly, add the Morphia dependency.
+&amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.mongodb&amp;lt;/g" /> 
+
+     
+    
+    <meta name="twitter:card" content="summary_large_image"/>
+    <meta name="twitter:image" content="https://jmchung.github.io/img/mika-baumeister-703680-unsplash.jpg"/>
+    
+ 
+    <meta name="twitter:title" content="Map-Reduce with MongoDB and Morphia"/>
+    <meta name="twitter:description" content="Just a note to record the usage of Map-Reduce with MongoDB and Morphia. Firstly, add the Morphia dependency.
+&amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.mongodb&amp;lt;/g"/>
+    <meta name="twitter:url" content="https://jmchung.github.io/post/map-reduce-with-mongodb-and-morphia/" />
+    <meta name="twitter:site" content="@"/>
+
+    <meta property="og:site_name" content="" />
+    <meta property="og:title" content="Map-Reduce with MongoDB and Morphia &middot; Code with :)" />
+    <meta property="og:url" content="https://jmchung.github.io/post/map-reduce-with-mongodb-and-morphia/" />
+    
+
+    <meta property="og:type" content="article" />
+    <meta property="og:description" content="Just a note to record the usage of Map-Reduce with MongoDB and Morphia. Firstly, add the Morphia dependency.
+&amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.mongodb&amp;lt;/g" />
+
+    <meta property="article:published_time" content="2013-12-30T00:00:00Z" />
+    <meta property="article:tag" content="Java" /><meta property="article:tag" content="MongoDB" /><meta property="article:tag" content="Morphia" /><meta property="article:tag" content="Map-Reduce" />
+
+    <meta property="og:image" content="https://jmchung.github.io/img/mika-baumeister-703680-unsplash.jpg"/>
+
+
+    <meta name="generator" content="Hugo 0.53" />
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" type="text/css" href="https://jmchung.github.io/built/screen.css" />
+    <link rel="stylesheet" type="text/css" href="https://jmchung.github.io/css/casper-two.css" /> 
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.14.2/styles/default.min.css" />
+     <link rel="stylesheet" href="https://jmchung.github.io/css/custom.css" /> 
+
+     
+
+    
+<script type="text/javascript"
+        async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$'], ['\[\[','\]\]']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+    TeX: { equationNumbers: { autoNumber: "AMS" },
+         extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+});
+
+MathJax.Hub.Queue(function() {
+    
+    
+    
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<style>
+code.has-jax {
+    font: inherit;
+    font-size: 100%;
+    background: inherit;
+    border: inherit;
+    color: #515151;
+}
+</style>
+
+</head>
+
+
+<body class="post-template">
+  <div class="site-wrapper"> 
+
+<header class="site-header outer">
+  <div class="inner">
+    <nav class="site-nav">
+      <div class="site-nav-left">
+
+        <ul class="nav" role="menu">
+        
+        
+        
+            <li class="" role="menuitem">
+              <a href="https://jmchung.github.io/">Home</a>
+            </li>
+        
+            <li class="" role="menuitem">
+              <a href="https://jmchung.github.io/tags/">Tags</a>
+            </li>
+        
+      </ul></div>
+
+      <div class="site-nav-right">
+        <div class="social-links">
+                    
+
+                    
+
+                    <a class="social-link" href="https://github.com/jmchung" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a>
+
+                    <a class="social-link" href="https://www.linkedin.com/in/jmchung" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 50 512 512"><path d="M150.65,100.682c0,27.992-22.508,50.683-50.273,50.683c-27.765,0-50.273-22.691-50.273-50.683 C50.104,72.691,72.612,50,100.377,50C128.143,50,150.65,72.691,150.65,100.682z M143.294,187.333H58.277V462h85.017V187.333z M279.195,187.333h-81.541V462h81.541c0,0,0-101.877,0-144.181c0-38.624,17.779-61.615,51.807-61.615 c31.268,0,46.289,22.071,46.289,61.615c0,39.545,0,144.181,0,144.181h84.605c0,0,0-100.344,0-173.915 s-41.689-109.131-99.934-109.131s-82.768,45.369-82.768,45.369V187.333z" /></svg></a>
+
+                    
+        </div>  
+            
+      </div>
+
+    </nav>  
+
+  </div>
+</header>
+
+<main id="site-main" class="site-main outer" role="main">
+  <div class="inner">
+    
+      <article class="post-full post"> 
+    <header class="post-full-header">
+        <section class="post-full-meta">
+            <time class="post-full-meta-date" datetime="2013-12-30">30 December 2013</time>
+                <span class="date-divider">/</span> <a href="https://jmchung.github.io/tags/java/">#Java</a>&nbsp;<a href="https://jmchung.github.io/tags/mongodb/">#MongoDB</a>&nbsp;
+        </section>
+        <h1 class="post-full-title">Map-Reduce with MongoDB and Morphia</h1>
+    </header>
+    
+    <figure class="post-full-image" style="background-image: url(https://jmchung.github.io/img/mika-baumeister-703680-unsplash.jpg)">
+    </figure>
+
+    <section class="post-full-content">
+        <div class="kg-card-markdown">
+        
+
+<p>Just a note to record the usage of Map-Reduce with MongoDB and Morphia. Firstly, add the Morphia dependency.</p>
+
+<pre><code class="language-xml">&lt;dependency&gt;
+    &lt;groupId&gt;org.mongodb&lt;/groupId&gt;
+    &lt;artifactId&gt;mongo-java-driver&lt;/artifactId&gt;
+    &lt;version&gt;2.11.2&lt;/version&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;org.mongodb.morphia&lt;/groupId&gt;
+    &lt;artifactId&gt;morphia&lt;/artifactId&gt;
+    &lt;version&gt;0.105&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre>
+
+<!-- more -->
+
+<p>The syntax of MapReduceCommand in Morphia as shown in <code>MapReduceCommand.java</code>:</p>
+
+<pre><code class="language-java">public MapReduceCommand(
+    DBCollection inputCollection, 
+    String map, 
+    String reduce, 
+    String outputCollection, 
+    OutputType type, 
+    DBObject query) {
+    
+    // Compiled Code    
+}
+</code></pre>
+
+<p>Here we want to group the sales amount (i.e., subtotal) of each county and exclude the null-subtotal from collection. And without persisting outputs to the new collection. A sample code as shown in below:</p>
+
+<pre><code class="language-java">public static void main(String[] args) {
+    Morphia morphia = new Morphia();
+    Datastore ds = morphia.createDatastore(mongo, dbName);
+
+    String map = &quot;function() { emit(this.buyerCounty,this.subtotal);}&quot;;
+    String reduce = &quot;function(k, v) {return Array.sum(v);}&quot;;
+
+    DBObject query = new BasicDBObject(&quot;buyerCounty&quot;, new BasicDBObject(&quot;$ne&quot;, null));
+    DBCollection collection = ds.getCollection(Order.class);
+    MapReduceCommand cmd = new MapReduceCommand(
+            collection,
+            map,
+            reduce,
+            null,
+            MapReduceCommand.OutputType.INLINE,
+            query);
+    MapReduceOutput out = collection.mapReduce(cmd);
+
+    for (DBObject o : out.results()) {
+        System.out.println(o.get(&quot;_id&quot;) + &quot; :: &quot; + o.get(&quot;value&quot;));
+    }
+}
+</code></pre>
+
+<p>This is a portion of results, <code>_id</code> is the county and <code>value</code> is the sales amount of each county. :)</p>
+
+<pre><code>AMERICA :: 22700.0
+南投縣 :: 178647.0
+台中市 :: 960630.0
+台北市 :: 2600085.0
+台南市 :: 464212.0
+台東縣 :: 8766.0
+嘉義市 :: 7612.0
+...
+</code></pre>
+
+<h2 id="references">References</h2>
+
+<ul>
+<li><p><a href="http://www.pretechsol.com/2012/09/java-mongodb-mapreduce-example.html#.UsIAYGQW2Gl">Java Mongodb Mapreduce Example</a>, by VINOD KUMARAN.</p></li>
+
+<li><p><a href="http://stackoverflow.com/questions/14229275/map-reduce-with-mongodb-and-morphia">Map Reduce with mongoDB and Morphia</a>, by cubbuk.</p></li>
+</ul>
+    
+        </div>
+    </section>
+
+    <footer class="post-full-footer">
+      <section class="author-card">
+        <img class="author-profile-image" src="https://jmchung.github.io/img/10312671_10202997579792812_6153536628954061057_n.jpg" alt="Author" />
+        <section class="author-card-content">
+            <h4 class="author-card-name"><a href="https://jmchung.github.io/">Jen-Ming Chung</a></h4>
+                <p>Software Engineer</p>
+        </section>
+      </section>
+    </footer>
+</article>
+    
+    
+    
+
+<div id="disqus_thread"></div>
+<script>
+
+
+
+
+var disqus_config = function () {
+this.page.url = "https:\/\/jmchung.github.io\/post\/map-reduce-with-mongodb-and-morphia\/";  
+this.page.identifier = "https:\/\/jmchung.github.io\/post\/map-reduce-with-mongodb-and-morphia\/"; 
+};
+
+(function() { 
+var d = document, s = d.createElement('script');
+s.src = 'https://octopressongithub.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  </div>
+</main>
+
+
+<aside class="read-next outer">
+  <div class="inner">
+    <div class="read-next-feed">      
+      
+<article class="read-next-card" 
+            style="background-image: url(https://jmchung.github.io/img/blog-cover.jpg);" >
+    <header class="read-next-card-header">
+        <small class="read-next-card-header-sitetitle">&mdash; Code with :) &mdash;</small>
+        
+        <h3 class="read-next-card-header-title"><a href="https://jmchung.github.io/tags/java/">#Java</a></h3>
+    </header>
+    <div class="read-next-divider"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 14.5s2 3 5 3 5.5-2.463 5.5-5.5S21 6.5 18 6.5c-5 0-7 11-12 11C2.962 17.5.5 15.037.5 12S3 6.5 6 6.5s4.5 3.5 4.5 3.5"/></svg>
+    </div>
+
+    <div class="read-next-card-content">
+      
+        <ul>
+          <li><a href="https://jmchung.github.io/post/integrating-swagger-into-jax-rs-with-java-ee-6-specification/">Integrating Swagger into JAX-RS with Java EE 6 specification</a></li>            
+        
+          <li><a href="https://jmchung.github.io/post/using-the-mongodb-aggregation-framework-via-mongodb-asynchronous-java-driver/">Using the MongoDB Aggregation Framework via MongoDB Asynchronous Java Driver</a></li>            
+        
+          <li><a href="https://jmchung.github.io/post/converting-isodate-from-mongodb/">Converting ISODate from MongoDB</a></li>            
+        
+          <li><a href="https://jmchung.github.io/post/automatically-mount-an-ebs-volume-upon-starting-an-amazon-ec2-linux-instance/">Automatically Mount an EBS Volume Upon Starting an Amazon EC2 Linux Instance</a></li>            
+        </ul>
+    </div>
+    <footer class="read-next-card-footer">
+      
+        <a href="https://jmchung.github.io/tags/java/">See all related posts →</a>
+    </footer>
+</article>
+
+
+      
+      <article class="post-card post"> 
+    
+    <a class="post-card-image-link" href="https://jmchung.github.io/post/how-to-customise-the-jackson-json-objectmapper-in-java-ee-enterprise-application/">
+      <div class="post-card-image" style="background-image: url(https://jmchung.github.io/img/adi-goldstein-671017-unsplash.jpg)"></div>
+    </a>
+    
+
+    <div class="post-card-content">
+      <a class="post-card-content-link" href="https://jmchung.github.io/post/how-to-customise-the-jackson-json-objectmapper-in-java-ee-enterprise-application/">
+          <header class="post-card-header">
+              <span class="post-card-tags">
+              #Jersey 
+              #ContextResolver 
+              #SimpleModule  </span>
+              
+              <h2 class="post-card-title">How to Customise the Jackson JSON ObjectMapper in Java EE Enterprise Application</h2>
+          </header>
+          <section class="post-card-excerpt">
+              
+                <p>Assume we have a naive User POJO class with a BSON Type ObjectId field, i.e., id.
+public class User { private ObjectId id; private String username; private String password; private Date createdAt; public getters/setters; ...  We can expect the following outputs from our REST services which is not a String with 24 hex characters.
+{ &quot;_id&quot;: { &quot;new&quot;: false, &quot;machine&quot;: 805608948, &quot;timeSecond&quot;: 1403022678, &quot;inc&quot;: -871980150, &quot;time&quot;: 1403022678000 }, &quot;username&quot;: &quot;John Smith&quot;, &quot;password&quot;: &quot;am9obiBzbWl0aCBwYXNzd29yZA&quot;, &quot;createdAt&quot;: 1403022678341 }  As we know, it can be solved by using the Jackson annotation for configuring Serializer class to serialize the associated value. ...  </p>
+              
+          </section>
+      </a>
+
+      <footer class="post-card-meta">
+          <img class="author-profile-image" src="https://jmchung.github.io/img/10312671_10202997579792812_6153536628954061057_n.jpg" alt="Author" />
+          <span class="post-card-author"><a href="https://jmchung.github.io/">Jen-Ming Chung</a></span>
+      </footer>
+    </div>
+</article>
+      
+      
+      <article class="post-card post"> 
+    
+    <a class="post-card-image-link" href="https://jmchung.github.io/post/using-the-mongodb-aggregation-framework-via-mongodb-asynchronous-java-driver/">
+      <div class="post-card-image" style="background-image: url(https://jmchung.github.io/img/kelly-sikkema-1156438-unsplash.jpg)"></div>
+    </a>
+    
+
+    <div class="post-card-content">
+      <a class="post-card-content-link" href="https://jmchung.github.io/post/using-the-mongodb-aggregation-framework-via-mongodb-asynchronous-java-driver/">
+          <header class="post-card-header">
+              <span class="post-card-tags">
+              #Java 
+              #MongoDB  </span>
+              
+              <h2 class="post-card-title">Using the MongoDB Aggregation Framework via MongoDB Asynchronous Java Driver</h2>
+          </header>
+          <section class="post-card-excerpt">
+              
+                <p>Introduction I often use Morphia in projects for mapping Java objects to/from MongoDB and it&rsquo;s Query API instead of building the complex DBObject query. However, the current version (v. 0.105) without aggregate command support. Fortunately, the MongoDB Asynchronous Java Driver provides the aggregate builder to construct complex pipelines of operators in fluent way. As usual, the following paragraphs will express some basic usages of mongodb-async-driver in aggregation pipeline framework through an example. ...  </p>
+              
+          </section>
+      </a>
+
+      <footer class="post-card-meta">
+          <img class="author-profile-image" src="https://jmchung.github.io/img/10312671_10202997579792812_6153536628954061057_n.jpg" alt="Author" />
+          <span class="post-card-author"><a href="https://jmchung.github.io/">Jen-Ming Chung</a></span>
+      </footer>
+    </div>
+</article>
+      
+    </div>
+  </div>
+</aside>
+
+<div class="floating-header">
+  <div class="floating-header-logo">
+    <a href="https://jmchung.github.io/">
+      
+      <span></span>
+    </a>
+  </div>
+  <span class="floating-header-divider">&mdash;</span>
+  <div class="floating-header-title">Map-Reduce with MongoDB and Morphia</div>
+  
+  <progress class="progress" value="0">
+    <div class="progress-container">
+      <span class="progress-bar"></span>
+    </div>
+  </progress>
+</div>
+
+
+
+<footer class="site-footer outer">
+  <div class="site-footer-content inner">
+    <section class="copyright" style="line-height: 1.3em;">
+      <a href="https://jmchung.github.io/"></a> © 2019 <br>
+      
+    </section>
+    <nav class="site-footer-nav">
+        <a href="https://jmchung.github.io/">Latest Posts</a>
+        
+        
+        <a href="https://github.com/jmchung" target="_blank" rel="noopener">Github</a>
+        <a href="https://www.linkedin.com/in/jmchung" target="_blank" rel="noopener">LinkedIn</a>
+        
+    </nav>  
+  </div>
+</footer>
+
+</div>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.14.2/highlight.min.js"></script>
+<script type="text/javascript" src="//code.jquery.com/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="https://jmchung.github.io/js/jquery.fitvids.js"></script>
+
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+    <script>
+
+
+
+
+
+$(document).ready(function () {
+    
+    var $postContent = $(".post-full-content");
+    $postContent.fitVids();
+    
+
+    var progressBar = document.querySelector('progress');
+    var header = document.querySelector('.floating-header');
+    var title = document.querySelector('.post-full-title');
+
+    var lastScrollY = window.scrollY;
+    var lastWindowHeight = window.innerHeight;
+    var lastDocumentHeight = $(document).height();
+    var ticking = false;
+
+    function onScroll() {
+        lastScrollY = window.scrollY;
+        requestTick();
+    }
+
+    function onResize() {
+        lastWindowHeight = window.innerHeight;
+        lastDocumentHeight = $(document).height();
+        requestTick();
+    }
+
+    function requestTick() {
+        if (!ticking) {
+            requestAnimationFrame(update);
+        }
+        ticking = true;
+    }
+
+    function update() {
+        var trigger = title.getBoundingClientRect().top + window.scrollY;
+        var triggerOffset = title.offsetHeight + 35;
+        var progressMax = lastDocumentHeight - lastWindowHeight;
+
+        
+        if (lastScrollY >= trigger + triggerOffset) {
+            header.classList.add('floating-active');
+        } else {
+            header.classList.remove('floating-active');
+        }
+
+        progressBar.setAttribute('max', progressMax);
+        progressBar.setAttribute('value', lastScrollY);
+
+        ticking = false;
+    }
+
+    window.addEventListener('scroll', onScroll, {passive: true});
+    window.addEventListener('resize', onResize, false);
+
+    update();
+});
+</script>
+</body></html>

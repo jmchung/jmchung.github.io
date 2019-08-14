@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Simplemodule on </title>
+    <link>https://jmchung.github.io/tags/simplemodule/</link>
+    <description>Recent content in Simplemodule on </description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-US</language>
+    <lastBuildDate>Wed, 18 Jun 2014 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://jmchung.github.io/tags/simplemodule/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>How to Customise the Jackson JSON ObjectMapper in Java EE Enterprise Application</title>
+      <link>https://jmchung.github.io/post/how-to-customise-the-jackson-json-objectmapper-in-java-ee-enterprise-application/</link>
+      <pubDate>Wed, 18 Jun 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://jmchung.github.io/post/how-to-customise-the-jackson-json-objectmapper-in-java-ee-enterprise-application/</guid>
+      <description>Assume we have a naive User POJO class with a BSON Type ObjectId field, i.e., id.
+public class User { private ObjectId id; private String username; private String password; private Date createdAt; public getters/setters; ...  We can expect the following outputs from our REST services which is not a String with 24 hex characters.
+{ &amp;quot;_id&amp;quot;: { &amp;quot;new&amp;quot;: false, &amp;quot;machine&amp;quot;: 805608948, &amp;quot;timeSecond&amp;quot;: 1403022678, &amp;quot;inc&amp;quot;: -871980150, &amp;quot;time&amp;quot;: 1403022678000 }, &amp;quot;username&amp;quot;: &amp;quot;John Smith&amp;quot;, &amp;quot;password&amp;quot;: &amp;quot;am9obiBzbWl0aCBwYXNzd29yZA&amp;quot;, &amp;quot;createdAt&amp;quot;: 1403022678341 }  As we know, it can be solved by using the Jackson annotation for configuring Serializer class to serialize the associated value.</description>
+    </item>
+    
+  </channel>
+</rss>

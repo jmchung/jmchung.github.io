@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en-US" />
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+    <title>Using Amazon S3 as a Private Maven Repository &middot; </title>
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="https://jmchung.github.io/favicon.ico" />
+    <link rel="canonical" href="https://jmchung.github.io/post/using-amazon-s3-as-a-private-maven-repository/" />
+
+     <meta name="description" content="This article is a quick tutorial to setup a private maven repository using Amazon S3 instead of Nexus or Artifactory.
+First we need to create a S3 bucket used t" /> 
+
+     
+    
+    <meta name="twitter:card" content="summary_large_image"/>
+    <meta name="twitter:image" content="https://jmchung.github.io/img/tags.jpg"/>
+    
+ 
+    <meta name="twitter:title" content="Using Amazon S3 as a Private Maven Repository"/>
+    <meta name="twitter:description" content="This article is a quick tutorial to setup a private maven repository using Amazon S3 instead of Nexus or Artifactory.
+First we need to create a S3 bucket used t"/>
+    <meta name="twitter:url" content="https://jmchung.github.io/post/using-amazon-s3-as-a-private-maven-repository/" />
+    <meta name="twitter:site" content="@"/>
+
+    <meta property="og:site_name" content="" />
+    <meta property="og:title" content="Using Amazon S3 as a Private Maven Repository &middot; Code with :)" />
+    <meta property="og:url" content="https://jmchung.github.io/post/using-amazon-s3-as-a-private-maven-repository/" />
+    
+
+    <meta property="og:type" content="article" />
+    <meta property="og:description" content="This article is a quick tutorial to setup a private maven repository using Amazon S3 instead of Nexus or Artifactory.
+First we need to create a S3 bucket used t" />
+
+    <meta property="article:published_time" content="2015-03-01T00:00:00Z" />
+    <meta property="article:tag" content="AWS" /><meta property="article:tag" content="Maven" />
+
+    <meta property="og:image" content="https://jmchung.github.io/img/tags.jpg"/>
+
+
+    <meta name="generator" content="Hugo 0.53" />
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" type="text/css" href="https://jmchung.github.io/built/screen.css" />
+    <link rel="stylesheet" type="text/css" href="https://jmchung.github.io/css/casper-two.css" /> 
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.14.2/styles/default.min.css" />
+     <link rel="stylesheet" href="https://jmchung.github.io/css/custom.css" /> 
+
+     
+
+    
+<script type="text/javascript"
+        async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$'], ['\[\[','\]\]']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+    TeX: { equationNumbers: { autoNumber: "AMS" },
+         extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+});
+
+MathJax.Hub.Queue(function() {
+    
+    
+    
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<style>
+code.has-jax {
+    font: inherit;
+    font-size: 100%;
+    background: inherit;
+    border: inherit;
+    color: #515151;
+}
+</style>
+
+</head>
+
+
+<body class="post-template">
+  <div class="site-wrapper"> 
+
+<header class="site-header outer">
+  <div class="inner">
+    <nav class="site-nav">
+      <div class="site-nav-left">
+
+        <ul class="nav" role="menu">
+        
+        
+        
+            <li class="" role="menuitem">
+              <a href="https://jmchung.github.io/">Home</a>
+            </li>
+        
+            <li class="" role="menuitem">
+              <a href="https://jmchung.github.io/tags/">Tags</a>
+            </li>
+        
+      </ul></div>
+
+      <div class="site-nav-right">
+        <div class="social-links">
+                    
+
+                    
+
+                    <a class="social-link" href="https://github.com/jmchung" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a>
+
+                    <a class="social-link" href="https://www.linkedin.com/in/jmchung" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 50 512 512"><path d="M150.65,100.682c0,27.992-22.508,50.683-50.273,50.683c-27.765,0-50.273-22.691-50.273-50.683 C50.104,72.691,72.612,50,100.377,50C128.143,50,150.65,72.691,150.65,100.682z M143.294,187.333H58.277V462h85.017V187.333z M279.195,187.333h-81.541V462h81.541c0,0,0-101.877,0-144.181c0-38.624,17.779-61.615,51.807-61.615 c31.268,0,46.289,22.071,46.289,61.615c0,39.545,0,144.181,0,144.181h84.605c0,0,0-100.344,0-173.915 s-41.689-109.131-99.934-109.131s-82.768,45.369-82.768,45.369V187.333z" /></svg></a>
+
+                    
+        </div>  
+            
+      </div>
+
+    </nav>  
+
+  </div>
+</header>
+
+<main id="site-main" class="site-main outer" role="main">
+  <div class="inner">
+    
+      <article class="post-full post"> 
+    <header class="post-full-header">
+        <section class="post-full-meta">
+            <time class="post-full-meta-date" datetime="2015-03-01">1 March 2015</time>
+                <span class="date-divider">/</span> <a href="https://jmchung.github.io/tags/aws/">#AWS</a>&nbsp;<a href="https://jmchung.github.io/tags/maven/">#Maven</a>&nbsp;
+        </section>
+        <h1 class="post-full-title">Using Amazon S3 as a Private Maven Repository</h1>
+    </header>
+    
+    <figure class="post-full-image" style="background-image: url(https://jmchung.github.io/img/tags.jpg)">
+    </figure>
+
+    <section class="post-full-content">
+        <div class="kg-card-markdown">
+        
+
+<p>This article is a quick tutorial to setup a private maven repository using Amazon S3 instead of <a href="http://www.sonatype.org/nexus/">Nexus</a> or <a href="http://www.jfrog.com/open-source/">Artifactory</a>.</p>
+
+<p>First we need to create a S3 bucket used to store two types of maven artifacts: stores two types of artifacts: releases and snapshots.</p>
+
+<pre><code>repository.example.com/[snapshots, releases]
+</code></pre>
+
+<!-- more -->
+
+<p>Since we want a private repository, we can securely control access to this bucket for our users by leveraging AWS Identity and Access Management (IAM). We create a new user, named <code>s3-repo-admin</code>, and subsequently set the permissions to this bucket by using the policy generator. In this example, we allow all actions to the bucket named <code>repository.example.com</code> for user <code>s3-repo-admin</code>.</p>
+
+<pre><code class="language-json">{
+  &quot;Version&quot;: &quot;2012-10-17&quot;,
+  &quot;Statement&quot;: [
+    {
+      &quot;Sid&quot;: &quot;Stmt1425225596000&quot;,
+      &quot;Effect&quot;: &quot;Allow&quot;,
+      &quot;Action&quot;: [
+        &quot;s3:*&quot;
+      ],
+      &quot;Resource&quot;: [
+        &quot;arn:aws:s3:::repository.example.com&quot;, &quot;arn:aws:s3:::repository.example.com/*&quot;
+      ]
+    }
+  ]
+}
+</code></pre>
+
+<p>We can also use the IAM policy simulator to verify the effects of our policy.</p>
+
+<p><img src="https://jmchung.github.io/img/2015-03-01-IAM-Policy-Simulator.png" alt="IAM Policy Simulator" /></p>
+
+<p>Next we update the local maven setting <code>~/.m2/settings.xml</code> with the AWS access credentials for the account, i.e., s3-repo-admin.</p>
+
+<pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;settings xmlns=&quot;http://maven.apache.org/SETTINGS/1.0.0&quot;
+      xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+      xsi:schemaLocation=&quot;http://maven.apache.org/SETTINGS/1.0.0 
+      http://maven.apache.org/xsd/settings-1.0.0.xsd&quot;&gt;
+    &lt;servers&gt;
+        &lt;server&gt;
+            &lt;id&gt;maven-s3-release-repo&lt;/id&gt;
+            &lt;username&gt;ACCESS_KEY_ID&lt;/username&gt;
+            &lt;password&gt;SECRET_ACCESS_KEY&lt;/password&gt;
+        &lt;/server&gt;
+        &lt;server&gt;
+            &lt;id&gt;maven-s3-snapshot-repo&lt;/id&gt;
+            &lt;username&gt;ACCESS_KEY_ID&lt;/username&gt;
+            &lt;password&gt;SECRET_ACCESS_KEY&lt;/password&gt;
+        &lt;/server&gt;
+    &lt;/servers&gt;
+&lt;/settings&gt;
+</code></pre>
+
+<p>Here we create a project called <code>test-public-lib</code> from simple maven archetypes such as maven-archetype-quickstart. In this example, the groupId, artifactId and version settings are being specified com.example, test-publish-lib and 1.0-SNAPSHOT respectively. Now, then, in order to publish artefacts to S3, the build extension and the repositories must be defined in <code>test-public-lib/pom.xml</code>.</p>
+
+<pre><code class="language-xml">&lt;project&gt;
+    ...
+    &lt;distributionManagement&gt;
+        &lt;repository&gt;
+            &lt;id&gt;maven-s3-release-repo&lt;/id&gt;
+            &lt;name&gt;AWS Release Repository&lt;/name&gt;
+            &lt;url&gt;s3://repository.example.com/releases&lt;/url&gt;
+        &lt;/repository&gt;
+        &lt;snapshotRepository&gt;
+            &lt;id&gt;maven-s3-snapshot-repo&lt;/id&gt;
+            &lt;name&gt;AWS Snapshot Repository&lt;/name&gt;
+            &lt;url&gt;s3://repository.example.com/snapshots&lt;/url&gt;
+        &lt;/snapshotRepository&gt;
+    &lt;/distributionManagement&gt;
+    ...
+    &lt;build&gt;
+        ...
+        &lt;extensions&gt;
+            ...
+            &lt;extension&gt;
+                &lt;groupId&gt;org.springframework.build&lt;/groupId&gt;
+                &lt;artifactId&gt;aws-maven&lt;/artifactId&gt;
+                &lt;version&gt;5.0.0.RELEASE&lt;/version&gt;
+            &lt;/extension&gt;
+            ...
+        &lt;/extensions&gt;
+        ...
+    &lt;/build&gt;
+    ...
+&lt;/project&gt;
+</code></pre>
+
+<p>Finally, we can execute the <code>mvn deploy</code> command to test out the whole process. As shown in the following, we will have a new timestamped shapshot version each time I run the deploy target. In contrast, we only have an artifact with release-version.</p>
+
+<p><img src="https://jmchung.github.io/img/2015-03-01-maven-3-timestamped-snapshots.png" alt="Maven 3 Timestamped Snapshots" /></p>
+
+<p>Subsequently, we create another project named <code>test-publish-app</code> in the same way and modify the POM file, i.e., <code>test-publish-app/pom.xml</code>, to test whether the dependency management is workable or not.</p>
+
+<pre><code class="language-xml">&lt;project&gt;
+    ...
+    &lt;repositories&gt;
+        &lt;repository&gt;
+            &lt;id&gt;maven-s3-release-repo&lt;/id&gt;
+            &lt;name&gt;S3 Release Repository&lt;/name&gt;
+            &lt;url&gt;s3://repository.example.com/releases&lt;/url&gt;
+        &lt;/repository&gt;
+        &lt;repository&gt;
+            &lt;id&gt;maven-s3-snapshot-repo&lt;/id&gt;
+            &lt;name&gt;S3 Snapshot Repository&lt;/name&gt;
+            &lt;url&gt;s3://repository.example.com/snapshots&lt;/url&gt;
+        &lt;/repository&gt;
+    &lt;/repositories&gt;
+    ...
+    &lt;dependencies&gt;
+        ...
+        &lt;dependency&gt;
+            &lt;groupId&gt;com.example&lt;/groupId&gt;
+            &lt;artifactId&gt;test-publish-lib&lt;/artifactId&gt;
+            &lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;
+        &lt;/dependency&gt;
+        ...
+    &lt;/dependencies&gt;
+    ...
+    &lt;build&gt;
+        ...
+        &lt;extensions&gt;
+            ...
+            &lt;extension&gt;
+                &lt;groupId&gt;org.springframework.build&lt;/groupId&gt;
+                &lt;artifactId&gt;aws-maven&lt;/artifactId&gt;
+                &lt;version&gt;5.0.0.RELEASE&lt;/version&gt;
+            &lt;/extension&gt;
+            ...
+        &lt;/extensions&gt;
+        ...
+    &lt;/build&gt;
+    ...
+&lt;/project&gt;
+</code></pre>
+
+<p>Run the <code>mvn compile</code> then will download the artifacts with the specified versions.</p>
+
+<p><img src="https://jmchung.github.io/img/2015-03-01-aws-s3-maven-repository.png" alt="AWS S3 Maven Repository" /></p>
+
+<h2 id="references">References</h2>
+
+<ul>
+<li><a href="https://github.com/spring-projects/aws-maven">AWS Maven Wagon</a></li>
+<li><a href="http://blog.brickcitylabs.com/2012/02/hosting-maven-repository-on-amazons-s3.html">Hosting a Maven Repository on Amazon S3</a>, by Martin H Berwanger, Feb. 2012.</li>
+<li><a href="http://blog.glugbot.com/private-maven-repo/">Creating private maven repository on S3 &amp; using in SBT</a>, by ayush, May 2014.</li>
+</ul>
+    
+        </div>
+    </section>
+
+    <footer class="post-full-footer">
+      <section class="author-card">
+        <img class="author-profile-image" src="https://jmchung.github.io/img/10312671_10202997579792812_6153536628954061057_n.jpg" alt="Author" />
+        <section class="author-card-content">
+            <h4 class="author-card-name"><a href="https://jmchung.github.io/">Jen-Ming Chung</a></h4>
+                <p>Software Engineer</p>
+        </section>
+      </section>
+    </footer>
+</article>
+    
+    
+    
+
+<div id="disqus_thread"></div>
+<script>
+
+
+
+
+var disqus_config = function () {
+this.page.url = "https:\/\/jmchung.github.io\/post\/using-amazon-s3-as-a-private-maven-repository\/";  
+this.page.identifier = "https:\/\/jmchung.github.io\/post\/using-amazon-s3-as-a-private-maven-repository\/"; 
+};
+
+(function() { 
+var d = document, s = d.createElement('script');
+s.src = 'https://octopressongithub.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  </div>
+</main>
+
+
+<aside class="read-next outer">
+  <div class="inner">
+    <div class="read-next-feed">      
+      
+<article class="read-next-card" 
+            style="background-image: url(https://jmchung.github.io/img/blog-cover.jpg);" >
+    <header class="read-next-card-header">
+        <small class="read-next-card-header-sitetitle">&mdash; Code with :) &mdash;</small>
+        
+        <h3 class="read-next-card-header-title"><a href="https://jmchung.github.io/tags/aws/">#AWS</a></h3>
+    </header>
+    <div class="read-next-divider"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 14.5s2 3 5 3 5.5-2.463 5.5-5.5S21 6.5 18 6.5c-5 0-7 11-12 11C2.962 17.5.5 15.037.5 12S3 6.5 6 6.5s4.5 3.5 4.5 3.5"/></svg>
+    </div>
+
+    <div class="read-next-card-content">
+      
+        <ul>
+          <li><a href="https://jmchung.github.io/post/perceptron-learning-algorithm/">Perceptron Learning Algorithm</a></li>            
+        
+          <li><a href="https://jmchung.github.io/post/a-jersey-pojomapping-example-in-mapping-form-parameters/">A Jersey POJOMapping Example in Mapping Form Parameters</a></li>            
+        
+          <li><a href="https://jmchung.github.io/post/using-mongodb-with-morphia/">Using MongoDB with Morphia</a></li>            
+        
+          <li><a href="https://jmchung.github.io/post/map-reduce-with-mongodb-and-morphia/">Map-Reduce with MongoDB and Morphia</a></li>            
+        </ul>
+    </div>
+    <footer class="read-next-card-footer">
+      
+        <a href="https://jmchung.github.io/tags/aws/">See all related posts →</a>
+    </footer>
+</article>
+
+
+      
+      <article class="post-card post"> 
+    
+    <a class="post-card-image-link" href="https://jmchung.github.io/post/perceptron-learning-algorithm/">
+      <div class="post-card-image" style="background-image: url(https://jmchung.github.io/img/roman-mager-59976-unsplash.jpg)"></div>
+    </a>
+    
+
+    <div class="post-card-content">
+      <a class="post-card-content-link" href="https://jmchung.github.io/post/perceptron-learning-algorithm/">
+          <header class="post-card-header">
+              <span class="post-card-tags">
+              #Machine Learning 
+              #Neural Networks  </span>
+              
+              <h2 class="post-card-title">Perceptron Learning Algorithm</h2>
+          </header>
+          <section class="post-card-excerpt">
+              
+                <p>This note illustrates the use of perceptron learning algorithm to identify the discriminant function with weight to partition the linearly separable data step-by-step. The material mainly outlined in Kröse et al. [1] work, and the example is from the Janecek&rsquo;s [2] slides.
+In machine learning, the perceptron is an supervised learning algorithm used as a binary classifier, which is used to identify whether a input data belongs to a specific group (class) or not. ...  </p>
+              
+          </section>
+      </a>
+
+      <footer class="post-card-meta">
+          <img class="author-profile-image" src="https://jmchung.github.io/img/10312671_10202997579792812_6153536628954061057_n.jpg" alt="Author" />
+          <span class="post-card-author"><a href="https://jmchung.github.io/">Jen-Ming Chung</a></span>
+      </footer>
+    </div>
+</article>
+      
+      
+      <article class="post-card post"> 
+    
+    <a class="post-card-image-link" href="https://jmchung.github.io/post/apache-shiro-nullpointerexception-after-logout-on-glassfish-4.1/">
+      <div class="post-card-image" style="background-image: url(https://jmchung.github.io/img/1280px-GlassFish-logo.jpg)"></div>
+    </a>
+    
+
+    <div class="post-card-content">
+      <a class="post-card-content-link" href="https://jmchung.github.io/post/apache-shiro-nullpointerexception-after-logout-on-glassfish-4.1/">
+          <header class="post-card-header">
+              <span class="post-card-tags">
+              #Apache Shiro 
+              #GlassFish  </span>
+              
+              <h2 class="post-card-title">Apache Shiro NullPointerException after Logout on GlassFish 4.1</h2>
+          </header>
+          <section class="post-card-excerpt">
+              
+                <p>I&rsquo;m currently working on a web application on Java EE7 stack and I&rsquo;ve integrated Apache Shiro with CAS for security. Everything goes well, except the GlassFish 4.1 (build 13) server logs keep getting filled with following errors when calling logout() method:
+Info: Session event listener threw exception java.lang.NullPointerException at org.jboss.weld.servlet.WeldTerminalListener.getSessionContext(WeldTerminalListener.java:65) at org.jboss.weld.servlet.WeldTerminalListener.sessionDestroyed(WeldTerminalListener.java:57) at org.apache.catalina.session.StandardSession.expire(StandardSession.java:910) at org.apache.catalina.session.StandardSession.expire(StandardSession.java:854) at org.apache.catalina.session.StandardSession.expire(StandardSession.java:842) at org.apache.catalina.session.StandardSession.invalidate(StandardSession.java:1603) at org.apache.catalina.session.StandardSessionFacade.invalidate(StandardSessionFacade.java:204) at org.apache.shiro.web.session.HttpServletSession.stop(HttpServletSession.java:113) at org.apache.shiro.session.ProxiedSession.stop(ProxiedSession.java:107) at org.apache.shiro.subject.support.DelegatingSubject$StoppingAwareProxiedSession.stop(DelegatingSubject.java:419) at org. ...  </p>
+              
+          </section>
+      </a>
+
+      <footer class="post-card-meta">
+          <img class="author-profile-image" src="https://jmchung.github.io/img/10312671_10202997579792812_6153536628954061057_n.jpg" alt="Author" />
+          <span class="post-card-author"><a href="https://jmchung.github.io/">Jen-Ming Chung</a></span>
+      </footer>
+    </div>
+</article>
+      
+    </div>
+  </div>
+</aside>
+
+<div class="floating-header">
+  <div class="floating-header-logo">
+    <a href="https://jmchung.github.io/">
+      
+      <span></span>
+    </a>
+  </div>
+  <span class="floating-header-divider">&mdash;</span>
+  <div class="floating-header-title">Using Amazon S3 as a Private Maven Repository</div>
+  
+  <progress class="progress" value="0">
+    <div class="progress-container">
+      <span class="progress-bar"></span>
+    </div>
+  </progress>
+</div>
+
+
+
+<footer class="site-footer outer">
+  <div class="site-footer-content inner">
+    <section class="copyright" style="line-height: 1.3em;">
+      <a href="https://jmchung.github.io/"></a> © 2019 <br>
+      
+    </section>
+    <nav class="site-footer-nav">
+        <a href="https://jmchung.github.io/">Latest Posts</a>
+        
+        
+        <a href="https://github.com/jmchung" target="_blank" rel="noopener">Github</a>
+        <a href="https://www.linkedin.com/in/jmchung" target="_blank" rel="noopener">LinkedIn</a>
+        
+    </nav>  
+  </div>
+</footer>
+
+</div>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.14.2/highlight.min.js"></script>
+<script type="text/javascript" src="//code.jquery.com/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="https://jmchung.github.io/js/jquery.fitvids.js"></script>
+
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+    <script>
+
+
+
+
+
+$(document).ready(function () {
+    
+    var $postContent = $(".post-full-content");
+    $postContent.fitVids();
+    
+
+    var progressBar = document.querySelector('progress');
+    var header = document.querySelector('.floating-header');
+    var title = document.querySelector('.post-full-title');
+
+    var lastScrollY = window.scrollY;
+    var lastWindowHeight = window.innerHeight;
+    var lastDocumentHeight = $(document).height();
+    var ticking = false;
+
+    function onScroll() {
+        lastScrollY = window.scrollY;
+        requestTick();
+    }
+
+    function onResize() {
+        lastWindowHeight = window.innerHeight;
+        lastDocumentHeight = $(document).height();
+        requestTick();
+    }
+
+    function requestTick() {
+        if (!ticking) {
+            requestAnimationFrame(update);
+        }
+        ticking = true;
+    }
+
+    function update() {
+        var trigger = title.getBoundingClientRect().top + window.scrollY;
+        var triggerOffset = title.offsetHeight + 35;
+        var progressMax = lastDocumentHeight - lastWindowHeight;
+
+        
+        if (lastScrollY >= trigger + triggerOffset) {
+            header.classList.add('floating-active');
+        } else {
+            header.classList.remove('floating-active');
+        }
+
+        progressBar.setAttribute('max', progressMax);
+        progressBar.setAttribute('value', lastScrollY);
+
+        ticking = false;
+    }
+
+    window.addEventListener('scroll', onScroll, {passive: true});
+    window.addEventListener('resize', onResize, false);
+
+    update();
+});
+</script>
+</body></html>

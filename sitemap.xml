@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <url>
+    <loc>https://jmchung.github.io/post/perceptron-learning-algorithm/</loc>
+    <lastmod>2019-05-07T00:51:00+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://jmchung.github.io/post/using-amazon-s3-as-a-private-maven-repository/</loc>
+    <lastmod>2015-03-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://jmchung.github.io/post/apache-shiro-nullpointerexception-after-logout-on-glassfish-4.1/</loc>
+    <lastmod>2014-10-28T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://jmchung.github.io/post/integrating-apache-shiro-with-cas-authentication-via-ldap/</loc>
+    <lastmod>2014-10-03T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://jmchung.github.io/post/how-to-customise-the-jackson-json-objectmapper-in-java-ee-enterprise-application/</loc>
+    <lastmod>2014-06-18T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://jmchung.github.io/post/map-reduce-with-mongodb-and-morphia/</loc>
+    <lastmod>2013-12-30T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://jmchung.github.io/post/using-the-mongodb-aggregation-framework-via-mongodb-asynchronous-java-driver/</loc>
+    <lastmod>2013-12-28T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://jmchung.github.io/post/integrating-swagger-into-jax-rs-with-java-ee-6-specification/</loc>
+    <lastmod>2013-12-14T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://jmchung.github.io/post/how-to-solve-jsoup-does-not-get-complete-html-document/</loc>
+    <lastmod>2013-10-25T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://jmchung.github.io/post/centos-installing-apache-portable-runtime-apr-for-tomcat/</loc>
+    <lastmod>2013-09-06T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://jmchung.github.io/post/automatically-mount-an-ebs-volume-upon-starting-an-amazon-ec2-linux-instance/</loc>
+    <lastmod>2013-08-27T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://jmchung.github.io/post/using-mongodb-with-morphia/</loc>
+    <lastmod>2013-08-15T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://jmchung.github.io/post/converting-isodate-from-mongodb/</loc>
+    <lastmod>2013-03-06T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://jmchung.github.io/post/jersey-test-framework-with-maven/</loc>
+    <lastmod>2013-03-05T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://jmchung.github.io/post/a-jersey-pojomapping-example-in-mapping-form-parameters/</loc>
+    <lastmod>2012-10-29T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://jmchung.github.io/post/running-hadoop-on-centos-6-multi-node-cluster/</loc>
+    <lastmod>2012-10-08T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://jmchung.github.io/</loc>
+    <lastmod>2019-05-07T00:51:00+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://jmchung.github.io/tags/apache-shiro/</loc>
+    <lastmod>2014-10-28T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://jmchung.github.io/tags/automount/</loc>
+    <lastmod>2013-08-27T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://jmchung.github.io/tags/aws/</loc>
+    <lastmod>2015-03-01T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://jmchung.github.io/tags/cas/</loc>
+    <lastmod>2014-10-03T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://jmchung.github.io/categories/</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://jmchung.github.io/tags/centos/</loc>
+    <lastmod>2013-09-06T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://jmchung.github.io/tags/contextresolver/</loc>
+    <lastmod>2014-06-18T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://jmchung.github.io/tags/ebs/</loc>
+    <lastmod>2013-08-27T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://jmchung.github.io/tags/ec2/</loc>
+    <lastmod>2013-08-27T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://jmchung.github.io/tags/glassfish/</loc>
+    <lastmod>2014-10-28T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://jmchung.github.io/tags/hadoop/</loc>
+    <lastmod>2012-10-08T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://jmchung.github.io/tags/java/</loc>
+    <lastmod>2013-12-30T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://jmchung.github.io/tags/java-ee/</loc>
+    <lastmod>2013-12-14T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://jmchung.github.io/tags/jax-rs/</loc>
+    <lastmod>2013-12-14T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://jmchung.github.io/tags/jersey/</loc>
+    <lastmod>2014-06-18T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://jmchung.github.io/tags/jsoup/</loc>
+    <lastmod>2013-10-25T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://jmchung.github.io/tags/ldap/</loc>
+    <lastmod>2014-10-03T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://jmchung.github.io/tags/machine-learning/</loc>
+    <lastmod>2019-05-07T00:51:00+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://jmchung.github.io/tags/map-reduce/</loc>
+    <lastmod>2013-12-30T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://jmchung.github.io/tags/maven/</loc>
+    <lastmod>2015-03-01T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://jmchung.github.io/tags/mongodb/</loc>
+    <lastmod>2013-12-30T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://jmchung.github.io/tags/morphia/</loc>
+    <lastmod>2013-12-30T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://jmchung.github.io/tags/neural-networks/</loc>
+    <lastmod>2019-05-07T00:51:00+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://jmchung.github.io/tags/nosql/</loc>
+    <lastmod>2013-08-15T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://jmchung.github.io/post/</loc>
+    <lastmod>2019-05-07T00:51:00+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://jmchung.github.io/tags/restful/</loc>
+    <lastmod>2012-10-29T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://jmchung.github.io/tags/simplemodule/</loc>
+    <lastmod>2014-06-18T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://jmchung.github.io/tags/sso/</loc>
+    <lastmod>2014-10-03T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://jmchung.github.io/tags/swagger/</loc>
+    <lastmod>2013-12-14T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://jmchung.github.io/tags/</loc>
+    <lastmod>2014-10-28T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://jmchung.github.io/tags/tomcat/</loc>
+    <lastmod>2013-09-06T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+</urlset>

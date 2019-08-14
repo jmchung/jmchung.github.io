@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Nosql on </title>
+    <link>https://jmchung.github.io/tags/nosql/</link>
+    <description>Recent content in Nosql on </description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-US</language>
+    <lastBuildDate>Thu, 15 Aug 2013 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://jmchung.github.io/tags/nosql/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Using MongoDB with Morphia</title>
+      <link>https://jmchung.github.io/post/using-mongodb-with-morphia/</link>
+      <pubDate>Thu, 15 Aug 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://jmchung.github.io/post/using-mongodb-with-morphia/</guid>
+      <description>Morphia - The JVM Object Document Mapper for MongoDB.
+ MongoDB is an extremely useful document-based database in NoSQL field. There are various drivers and client libraries in MongoDB Ecosystem and detailed manual to facilitate the developers to get into it shortly. In the beginning, we use MongoDB Java driver to manipulate CRUD operations on databases. Everything is running well but lots of BasicDBObject cause the code lack of readability and fluency.</description>
+    </item>
+    
+  </channel>
+</rss>

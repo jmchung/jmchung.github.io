@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en-US" />
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+    <title>Using MongoDB with Morphia &middot; </title>
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="https://jmchung.github.io/favicon.ico" />
+    <link rel="canonical" href="https://jmchung.github.io/post/using-mongodb-with-morphia/" />
+
+     <meta name="description" content="Morphia - The JVM Object Document Mapper for MongoDB.
+ MongoDB is an extremely useful document-based database in NoSQL field. There are various drivers and clie" /> 
+
+     
+    
+    <meta name="twitter:card" content="summary_large_image"/>
+    <meta name="twitter:image" content="https://jmchung.github.io/img/1400px-Morphinan.jpg"/>
+    
+ 
+    <meta name="twitter:title" content="Using MongoDB with Morphia"/>
+    <meta name="twitter:description" content="Morphia - The JVM Object Document Mapper for MongoDB.
+ MongoDB is an extremely useful document-based database in NoSQL field. There are various drivers and clie"/>
+    <meta name="twitter:url" content="https://jmchung.github.io/post/using-mongodb-with-morphia/" />
+    <meta name="twitter:site" content="@"/>
+
+    <meta property="og:site_name" content="" />
+    <meta property="og:title" content="Using MongoDB with Morphia &middot; Code with :)" />
+    <meta property="og:url" content="https://jmchung.github.io/post/using-mongodb-with-morphia/" />
+    
+
+    <meta property="og:type" content="article" />
+    <meta property="og:description" content="Morphia - The JVM Object Document Mapper for MongoDB.
+ MongoDB is an extremely useful document-based database in NoSQL field. There are various drivers and clie" />
+
+    <meta property="article:published_time" content="2013-08-15T00:00:00Z" />
+    <meta property="article:tag" content="MongoDB" /><meta property="article:tag" content="Morphia" /><meta property="article:tag" content="Java" /><meta property="article:tag" content="NoSQL" />
+
+    <meta property="og:image" content="https://jmchung.github.io/img/1400px-Morphinan.jpg"/>
+
+
+    <meta name="generator" content="Hugo 0.53" />
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" type="text/css" href="https://jmchung.github.io/built/screen.css" />
+    <link rel="stylesheet" type="text/css" href="https://jmchung.github.io/css/casper-two.css" /> 
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.14.2/styles/default.min.css" />
+     <link rel="stylesheet" href="https://jmchung.github.io/css/custom.css" /> 
+
+     
+
+    
+<script type="text/javascript"
+        async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$'], ['\[\[','\]\]']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+    TeX: { equationNumbers: { autoNumber: "AMS" },
+         extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+});
+
+MathJax.Hub.Queue(function() {
+    
+    
+    
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<style>
+code.has-jax {
+    font: inherit;
+    font-size: 100%;
+    background: inherit;
+    border: inherit;
+    color: #515151;
+}
+</style>
+
+</head>
+
+
+<body class="post-template">
+  <div class="site-wrapper"> 
+
+<header class="site-header outer">
+  <div class="inner">
+    <nav class="site-nav">
+      <div class="site-nav-left">
+
+        <ul class="nav" role="menu">
+        
+        
+        
+            <li class="" role="menuitem">
+              <a href="https://jmchung.github.io/">Home</a>
+            </li>
+        
+            <li class="" role="menuitem">
+              <a href="https://jmchung.github.io/tags/">Tags</a>
+            </li>
+        
+      </ul></div>
+
+      <div class="site-nav-right">
+        <div class="social-links">
+                    
+
+                    
+
+                    <a class="social-link" href="https://github.com/jmchung" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a>
+
+                    <a class="social-link" href="https://www.linkedin.com/in/jmchung" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 50 512 512"><path d="M150.65,100.682c0,27.992-22.508,50.683-50.273,50.683c-27.765,0-50.273-22.691-50.273-50.683 C50.104,72.691,72.612,50,100.377,50C128.143,50,150.65,72.691,150.65,100.682z M143.294,187.333H58.277V462h85.017V187.333z M279.195,187.333h-81.541V462h81.541c0,0,0-101.877,0-144.181c0-38.624,17.779-61.615,51.807-61.615 c31.268,0,46.289,22.071,46.289,61.615c0,39.545,0,144.181,0,144.181h84.605c0,0,0-100.344,0-173.915 s-41.689-109.131-99.934-109.131s-82.768,45.369-82.768,45.369V187.333z" /></svg></a>
+
+                    
+        </div>  
+            
+      </div>
+
+    </nav>  
+
+  </div>
+</header>
+
+<main id="site-main" class="site-main outer" role="main">
+  <div class="inner">
+    
+      <article class="post-full post"> 
+    <header class="post-full-header">
+        <section class="post-full-meta">
+            <time class="post-full-meta-date" datetime="2013-08-15">15 August 2013</time>
+                <span class="date-divider">/</span> <a href="https://jmchung.github.io/tags/mongodb/">#MongoDB</a>&nbsp;<a href="https://jmchung.github.io/tags/morphia/">#Morphia</a>&nbsp;
+        </section>
+        <h1 class="post-full-title">Using MongoDB with Morphia</h1>
+    </header>
+    
+    <figure class="post-full-image" style="background-image: url(https://jmchung.github.io/img/1400px-Morphinan.jpg)">
+    </figure>
+
+    <section class="post-full-content">
+        <div class="kg-card-markdown">
+        
+
+<blockquote>
+<p>Morphia - The JVM Object Document Mapper for MongoDB.</p>
+</blockquote>
+
+<p>MongoDB is an extremely useful document-based database in NoSQL field. There are various drivers and client libraries in MongoDB Ecosystem and detailed manual to facilitate the developers to get into it shortly. In the beginning, we use MongoDB Java driver to manipulate CRUD operations on databases. Everything is running well but lots of <code>BasicDBObject</code> cause the code lack of readability and fluency. In addition, we employ POJO classes as intermediates between business logic and databases. However, it also brings many laborious and tedious works for converting POJOs into BasicDBObjects before we want to persist custom objects to the database.</p>
+
+<!-- more -->
+
+<p>Then we find the Java driver <a href="http://docs.mongodb.org/ecosystem/tutorial/use-java-dbobject-to-perform-saves/">provides</a> a <code>DBObject</code> interface to save custom objects to the database as long as the POJOs implement this interface:</p>
+
+<pre><code class="language-java">public class CustomClass implements DBObject {
+    /* ... */
+}
+</code></pre>
+
+<p>This approach offers an easy way to convert the document we retrieved to a DBobject instance. Then we can perform some operations (e.g, set values to fields) and save it back easily:</p>
+
+<pre><code>collection.save(CustomClass);
+</code></pre>
+
+<p>However, is there a better way to do this?</p>
+
+<h2 id="morphia">Morphia</h2>
+
+<p>In my opinion, <a href="https://github.com/mongodb/morphia">Morphia</a> is a better alternative library for mapping POJOs to/from MongoDB. We can define our entity by <a href="https://github.com/mongodb/morphia/wiki/AllAnnotations">Annotations</a>, including the embedded and reference documents within the database. Most of all, Morphia also provides the Data Access Objects (DAO) mechanism to persist the objects. Here&rsquo;s an excellent introduction to Morphia provided by Jeff Yemin.</p>
+
+<p><iframe src="http://www.slideshare.net/slideshow/embed_code/14035481" width="597" height="486" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC;border-width:1px 1px 0;margin-bottom:5px" allowfullscreen webkitallowfullscreen mozallowfullscreen> </iframe> <div style="margin-bottom:5px"> <strong> <a href="https://www.slideshare.net/jeffyemin/boston-java-user-group-simplifying-persistence-for-java-and-mongo-db" title="Morphia: Simplifying Persistence for Java and MongoDB" target="_blank">Morphia: Simplifying Persistence for Java and MongoDB</a> </strong> from <strong><a href="http://www.slideshare.net/jeffyemin" target="_blank">Jeff Yemin</a></strong> </div></p>
+
+<p>The following part of this article will note down some usage or discussions of Morphia.</p>
+
+<h2 id="mongoclient">MongoClient</h2>
+
+<p>We use MongoClient to create a database connection with internal connection pool instead of deprecated Mongo class. It&rsquo;s designed with the Singleton pattern, and the properties are defined as resource in order to easy to modify. Then just call the <code>getMongoClient</code> function to get a MongoClient instance.</p>
+
+<pre><code class="language-java">package com.example.morphia;
+
+import java.net.UnknownHostException;
+import java.util.ResourceBundle;
+import com.mongodb.MongoClient;
+
+public class MongoConnectionHelper {
+
+    private static MongoClient mongoSingleton = null;
+
+    public static synchronized MongoClient getMongoClient() throws UnknownHostException {
+
+        if (mongoSingleton == null) {
+
+            synchronized (MongoConnectionHelper.class) {
+                if (mongoSingleton == null) {
+
+                    ResourceBundle bundle = ResourceBundle.getBundle(&quot;mongodb&quot;);
+                    String host = bundle.getString(&quot;host&quot;);
+                    int port = Integer.parseInt(bundle.getString(&quot;port&quot;));
+
+                    mongoSingleton = new MongoClient(host, port);
+                }
+            }
+        }
+
+        return mongoSingleton;
+    
+    }
+}
+</code></pre>
+
+<h2 id="serialization-and-deserialization-objectid-with-jackson">Serialization and Deserialization ObjectId with Jackson</h2>
+
+<p>In order to serve an object in JSON as a RESTful resource, we can turn on the JSON POJO support in <code>web.xml</code> in Tomcat:</p>
+
+<pre><code class="language-xml">...
+
+&lt;servlet&gt;  
+    &lt;servlet-name&gt;Jersey Web Application&lt;/servlet-name&gt;  
+    &lt;servlet-class&gt;com.sun.jersey.spi.container.servlet.ServletContainer&lt;/servlet-class&gt;
+    &lt;init-param&gt;
+        &lt;param-name&gt;com.sun.jersey.api.json.POJOMappingFeature&lt;/param-name&gt;
+        &lt;param-value&gt;true&lt;/param-value&gt;
+    &lt;/init-param&gt;
+    &lt;load-on-startup&gt;1&lt;/load-on-startup&gt;  
+&lt;/servlet&gt;
+
+...
+
+</code></pre>
+
+<p>However, we will get something like this formation for ObjectId field in returned JSON,</p>
+
+<pre><code class="language-json">{
+    &quot;id&quot;: {
+        &quot;machine&quot;: 615264403,
+        &quot;timeSecond&quot;: 1376632233,
+        &quot;inc&quot;: -1018127256,
+        &quot;new&quot;: false,
+        &quot;time&quot;: 1376632233000
+    }
+}
+</code></pre>
+
+<p>instead of the following style:</p>
+
+<pre><code>&quot;id&quot;: &quot;520dbda924ac3093c3509c68&quot;
+</code></pre>
+
+<p>Fortunately, <a href="https://plus.google.com/107015655774974154914">Alejandro Ayuso</a> provides a <a href="http://monocaffe.blogspot.tw/2012/12/jackson-mongodbs-objectid.html">way</a> to solve the Jackson serialization problem for MongoDB&rsquo;s ObjectId - the <code>ObjectIdSerializer</code> class and your custom class can set <code>JsonSerialize</code> property with it:</p>
+
+<pre><code class="language-java">@Entity
+public class MyEntity {
+    @JsonSerialize(using = ObjectIdSerializer.class) 
+    @Id
+    ObjectId id;
+    
+    ...
+}
+</code></pre>
+
+<h2 id="performance-issue">Performance Issue</h2>
+
+<p><a href="http://www.scalabiliti.com/about">Scalabiliti</a> conducts an <a href="http://www.scalabiliti.com/blog/morphia_performance_revisited">experiment</a> to evaluate the performance between  Morphia and MongoDB with Java driver. According to the results, Morphia has slightly difference in the test.</p>
+
+<blockquote>
+<p>With a few code changes for optimisation, Morphia has now made it to within 99.5% of the performance of the base Mongo install.</p>
+</blockquote>
+
+<h2 id="array-operatios">Array Operatios</h2>
+
+<p>Morphia provides a fluent and comfortable interface to operate arrays. We can remove one or multi objects from an array field through <code>removeAll</code> function.</p>
+
+<pre><code class="language-java">Datastore ds = ...
+
+Query&lt;MyEntity&gt; query = ds.find(MyEntity.class, field, value);
+UpdateOperations&lt;MyEntity&gt; ops = ds.createUpdateOperations(
+    MyEntity.class).removeAll(field, value);
+
+UpdateResults&lt;MyEntity&gt; results = ds.update(query, ops);
+</code></pre>
+
+<p>Moreover, you can pull out more than one object by providing <code>List&lt;?&gt;</code> values.</p>
+
+<pre><code class="language-java">List&lt;String&gt; stooges = Arrays.asList(&quot;Larry&quot;, &quot;Moe&quot;, &quot;Curly&quot;);
+UpdateOperations&lt;MyEntity&gt; ops = ds.createUpdateOperations(
+    MyEntity.class).removeAll(field, stooges);
+</code></pre>
+    
+        </div>
+    </section>
+
+    <footer class="post-full-footer">
+      <section class="author-card">
+        <img class="author-profile-image" src="https://jmchung.github.io/img/10312671_10202997579792812_6153536628954061057_n.jpg" alt="Author" />
+        <section class="author-card-content">
+            <h4 class="author-card-name"><a href="https://jmchung.github.io/">Jen-Ming Chung</a></h4>
+                <p>Software Engineer</p>
+        </section>
+      </section>
+    </footer>
+</article>
+    
+    
+    
+
+<div id="disqus_thread"></div>
+<script>
+
+
+
+
+var disqus_config = function () {
+this.page.url = "https:\/\/jmchung.github.io\/post\/using-mongodb-with-morphia\/";  
+this.page.identifier = "https:\/\/jmchung.github.io\/post\/using-mongodb-with-morphia\/"; 
+};
+
+(function() { 
+var d = document, s = d.createElement('script');
+s.src = 'https://octopressongithub.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  </div>
+</main>
+
+
+<aside class="read-next outer">
+  <div class="inner">
+    <div class="read-next-feed">      
+      
+<article class="read-next-card" 
+            style="background-image: url(https://jmchung.github.io/img/blog-cover.jpg);" >
+    <header class="read-next-card-header">
+        <small class="read-next-card-header-sitetitle">&mdash; Code with :) &mdash;</small>
+        
+        <h3 class="read-next-card-header-title"><a href="https://jmchung.github.io/tags/mongodb/">#MongoDB</a></h3>
+    </header>
+    <div class="read-next-divider"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 14.5s2 3 5 3 5.5-2.463 5.5-5.5S21 6.5 18 6.5c-5 0-7 11-12 11C2.962 17.5.5 15.037.5 12S3 6.5 6 6.5s4.5 3.5 4.5 3.5"/></svg>
+    </div>
+
+    <div class="read-next-card-content">
+      
+        <ul>
+          <li><a href="https://jmchung.github.io/post/running-hadoop-on-centos-6-multi-node-cluster/">Running Hadoop on CentOS 6 (Multi-Node Cluster)</a></li>            
+        
+          <li><a href="https://jmchung.github.io/post/how-to-solve-jsoup-does-not-get-complete-html-document/">How to solve jsoup does not get complete HTML document</a></li>            
+        
+          <li><a href="https://jmchung.github.io/post/a-jersey-pojomapping-example-in-mapping-form-parameters/">A Jersey POJOMapping Example in Mapping Form Parameters</a></li>            
+        
+          <li><a href="https://jmchung.github.io/post/centos-installing-apache-portable-runtime-apr-for-tomcat/">CentOS: Installing Apache Portable Runtime (APR) for Tomcat</a></li>            
+        </ul>
+    </div>
+    <footer class="read-next-card-footer">
+      
+        <a href="https://jmchung.github.io/tags/mongodb/">See all related posts →</a>
+    </footer>
+</article>
+
+
+      
+      <article class="post-card post"> 
+    
+    <a class="post-card-image-link" href="https://jmchung.github.io/post/automatically-mount-an-ebs-volume-upon-starting-an-amazon-ec2-linux-instance/">
+      <div class="post-card-image" style="background-image: url(https://jmchung.github.io/img/disk-atgenomix-rack.jpg)"></div>
+    </a>
+    
+
+    <div class="post-card-content">
+      <a class="post-card-content-link" href="https://jmchung.github.io/post/automatically-mount-an-ebs-volume-upon-starting-an-amazon-ec2-linux-instance/">
+          <header class="post-card-header">
+              <span class="post-card-tags">
+              #AWS 
+              #EC2 
+              #EBS 
+              #Automount 
+              #CentOS  </span>
+              
+              <h2 class="post-card-title">Automatically Mount an EBS Volume Upon Starting an Amazon EC2 Linux Instance</h2>
+          </header>
+          <section class="post-card-excerpt">
+              
+                <p>Brief note to create an EBS volume then mount it while CentOS 6.3 on EC2 at boot.
+ Show the space available on that filesystem before we mount the volume:
+# df -h Filesystem Size Used Avail Use% Mounted on /dev/xvde1 7.9G 4.0G 3.5G 54% / tmpfs 296M 0 296M 0% /dev/shm  After we attach the EBS volume to an EC2 instance:
+# fdisk -l Disk /dev/xvde: 9663 MB, 9663676416 bytes 255 heads, 63 sectors/track, 1174 cylinders Units = cylinders of 16065 * 512 = 8225280 bytes Sector size (logical/physical): 512 bytes / 512 bytes I/O size (minimum/optimal): 512 bytes / 512 bytes Disk identifier: 0x00076be1 Device Boot Start End Blocks Id System /dev/xvde1 * 1 1045 8387584 83 Linux /dev/xvde2 1045 1175 1048576 82 Linux swap / Solaris Disk /dev/xvdt: 107. ...  </p>
+              
+          </section>
+      </a>
+
+      <footer class="post-card-meta">
+          <img class="author-profile-image" src="https://jmchung.github.io/img/10312671_10202997579792812_6153536628954061057_n.jpg" alt="Author" />
+          <span class="post-card-author"><a href="https://jmchung.github.io/">Jen-Ming Chung</a></span>
+      </footer>
+    </div>
+</article>
+      
+      
+      <article class="post-card post"> 
+    
+    <a class="post-card-image-link" href="https://jmchung.github.io/post/converting-isodate-from-mongodb/">
+      <div class="post-card-image" style="background-image: url(https://jmchung.github.io/defimg/2.jpg)"></div>
+    </a>    
+    
+
+    <div class="post-card-content">
+      <a class="post-card-content-link" href="https://jmchung.github.io/post/converting-isodate-from-mongodb/">
+          <header class="post-card-header">
+              <span class="post-card-tags">
+              #MongoDB  </span>
+              
+              <h2 class="post-card-title">Converting ISODate from MongoDB</h2>
+          </header>
+          <section class="post-card-excerpt">
+              
+                <p>I’m confused about the insertion operation with Date object via mongo-java-driver that always short of 8 hours where my place of residence is Taiwan (GMT+8). According to the enclosed references, we can observe that the incoming Date object will be set to ISO_8601_DATE_FORMAT as shown in the following code snippet.
+if (o instanceof Date) { Date d = (Date) o; SimpleDateFormat format = new SimpleDateFormat(ISO_8601_DATE_FORMAT); serialize(new BasicDBObject(&quot;$date&quot;, format.format(d)), buf); return; }  An example next demonstrates that the given Date will plus 8 hours in the GMT+8 time zone. ...  </p>
+              
+          </section>
+      </a>
+
+      <footer class="post-card-meta">
+          <img class="author-profile-image" src="https://jmchung.github.io/img/10312671_10202997579792812_6153536628954061057_n.jpg" alt="Author" />
+          <span class="post-card-author"><a href="https://jmchung.github.io/">Jen-Ming Chung</a></span>
+      </footer>
+    </div>
+</article>
+      
+    </div>
+  </div>
+</aside>
+
+<div class="floating-header">
+  <div class="floating-header-logo">
+    <a href="https://jmchung.github.io/">
+      
+      <span></span>
+    </a>
+  </div>
+  <span class="floating-header-divider">&mdash;</span>
+  <div class="floating-header-title">Using MongoDB with Morphia</div>
+  
+  <progress class="progress" value="0">
+    <div class="progress-container">
+      <span class="progress-bar"></span>
+    </div>
+  </progress>
+</div>
+
+
+
+<footer class="site-footer outer">
+  <div class="site-footer-content inner">
+    <section class="copyright" style="line-height: 1.3em;">
+      <a href="https://jmchung.github.io/"></a> © 2019 <br>
+      
+    </section>
+    <nav class="site-footer-nav">
+        <a href="https://jmchung.github.io/">Latest Posts</a>
+        
+        
+        <a href="https://github.com/jmchung" target="_blank" rel="noopener">Github</a>
+        <a href="https://www.linkedin.com/in/jmchung" target="_blank" rel="noopener">LinkedIn</a>
+        
+    </nav>  
+  </div>
+</footer>
+
+</div>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.14.2/highlight.min.js"></script>
+<script type="text/javascript" src="//code.jquery.com/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="https://jmchung.github.io/js/jquery.fitvids.js"></script>
+
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+    <script>
+
+
+
+
+
+$(document).ready(function () {
+    
+    var $postContent = $(".post-full-content");
+    $postContent.fitVids();
+    
+
+    var progressBar = document.querySelector('progress');
+    var header = document.querySelector('.floating-header');
+    var title = document.querySelector('.post-full-title');
+
+    var lastScrollY = window.scrollY;
+    var lastWindowHeight = window.innerHeight;
+    var lastDocumentHeight = $(document).height();
+    var ticking = false;
+
+    function onScroll() {
+        lastScrollY = window.scrollY;
+        requestTick();
+    }
+
+    function onResize() {
+        lastWindowHeight = window.innerHeight;
+        lastDocumentHeight = $(document).height();
+        requestTick();
+    }
+
+    function requestTick() {
+        if (!ticking) {
+            requestAnimationFrame(update);
+        }
+        ticking = true;
+    }
+
+    function update() {
+        var trigger = title.getBoundingClientRect().top + window.scrollY;
+        var triggerOffset = title.offsetHeight + 35;
+        var progressMax = lastDocumentHeight - lastWindowHeight;
+
+        
+        if (lastScrollY >= trigger + triggerOffset) {
+            header.classList.add('floating-active');
+        } else {
+            header.classList.remove('floating-active');
+        }
+
+        progressBar.setAttribute('max', progressMax);
+        progressBar.setAttribute('value', lastScrollY);
+
+        ticking = false;
+    }
+
+    window.addEventListener('scroll', onScroll, {passive: true});
+    window.addEventListener('resize', onResize, false);
+
+    update();
+});
+</script>
+</body></html>

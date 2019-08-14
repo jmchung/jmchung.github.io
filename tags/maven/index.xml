@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Maven on </title>
+    <link>https://jmchung.github.io/tags/maven/</link>
+    <description>Recent content in Maven on </description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-US</language>
+    <lastBuildDate>Sun, 01 Mar 2015 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://jmchung.github.io/tags/maven/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Using Amazon S3 as a Private Maven Repository</title>
+      <link>https://jmchung.github.io/post/using-amazon-s3-as-a-private-maven-repository/</link>
+      <pubDate>Sun, 01 Mar 2015 00:00:00 +0000</pubDate>
+      
+      <guid>https://jmchung.github.io/post/using-amazon-s3-as-a-private-maven-repository/</guid>
+      <description>This article is a quick tutorial to setup a private maven repository using Amazon S3 instead of Nexus or Artifactory.
+First we need to create a S3 bucket used to store two types of maven artifacts: stores two types of artifacts: releases and snapshots.
+repository.example.com/[snapshots, releases]  Since we want a private repository, we can securely control access to this bucket for our users by leveraging AWS Identity and Access Management (IAM).</description>
+    </item>
+    
+    <item>
+      <title>Jersey Test Framework with Maven</title>
+      <link>https://jmchung.github.io/post/jersey-test-framework-with-maven/</link>
+      <pubDate>Tue, 05 Mar 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://jmchung.github.io/post/jersey-test-framework-with-maven/</guid>
+      <description>Introduction This memo records the issues while executing the unit-test with Jersey Test framework. We use the Jersey framework to implement the RESTful Web services and employ the Maven to manage the dependencies in project. First of all, we add the jersey-test-framework-grizzly2 dependency to enable the test framework in pom.xml; Second, we deploy the application using Jersey specific servlet in web.xml. Finally, we have the following java files within Maven Archetype – maven-archetype-webapp:</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Restful on </title>
+    <link>https://jmchung.github.io/tags/restful/</link>
+    <description>Recent content in Restful on </description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-US</language>
+    <lastBuildDate>Mon, 29 Oct 2012 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://jmchung.github.io/tags/restful/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>A Jersey POJOMapping Example in Mapping Form Parameters</title>
+      <link>https://jmchung.github.io/post/a-jersey-pojomapping-example-in-mapping-form-parameters/</link>
+      <pubDate>Mon, 29 Oct 2012 00:00:00 +0000</pubDate>
+      
+      <guid>https://jmchung.github.io/post/a-jersey-pojomapping-example-in-mapping-form-parameters/</guid>
+      <description>Jersey, RESTful Web Services in Java.
+ In Java Servlet circumstance, we usually harvest the form parameters by using request.getParameter(“FORM_FIELD_NAME”) syntax. Now we can do it more elegant while enabling Jsersey’s POJOMapping features. The following example demonstrates the account registration scenario. Here we have a Account class, i.e., Account.java:
+public class Account { private String email; @JsonProperty(&amp;quot;email&amp;quot;) public String getEmail() { return email; } public void setEmail(String email) { this.</description>
+    </item>
+    
+  </channel>
+</rss>

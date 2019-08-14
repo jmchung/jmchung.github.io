@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Cas on </title>
+    <link>https://jmchung.github.io/tags/cas/</link>
+    <description>Recent content in Cas on </description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-US</language>
+    <lastBuildDate>Fri, 03 Oct 2014 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://jmchung.github.io/tags/cas/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Integrating Apache Shiro with CAS Authentication via LDAP</title>
+      <link>https://jmchung.github.io/post/integrating-apache-shiro-with-cas-authentication-via-ldap/</link>
+      <pubDate>Fri, 03 Oct 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://jmchung.github.io/post/integrating-apache-shiro-with-cas-authentication-via-ldap/</guid>
+      <description>In this post I want to share how to setup SSO with CAS and LDAP authentication, and then demonstrate how to integrate Apache Shiro with CAS in the web application.
+An Example of An Individual LDAP Entry The following entry which represented in LDIF would be used to login the CAS. In this case, the username will be the full email address (case-insensitive) and the password is the value of userPassword attribute.</description>
+    </item>
+    
+  </channel>
+</rss>

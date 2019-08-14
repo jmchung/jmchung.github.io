@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en-US" />
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+    <title>Apache Shiro NullPointerException after Logout on GlassFish 4.1 &middot; </title>
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="https://jmchung.github.io/favicon.ico" />
+    <link rel="canonical" href="https://jmchung.github.io/post/apache-shiro-nullpointerexception-after-logout-on-glassfish-4.1/" />
+
+     <meta name="description" content="I&amp;rsquo;m currently working on a web application on Java EE7 stack and I&amp;rsquo;ve integrated Apache Shiro with CAS for security. Everything goes well, except th" /> 
+
+     
+    
+    <meta name="twitter:card" content="summary_large_image"/>
+    <meta name="twitter:image" content="https://jmchung.github.io/img/1280px-GlassFish-logo.jpg"/>
+    
+ 
+    <meta name="twitter:title" content="Apache Shiro NullPointerException after Logout on GlassFish 4.1"/>
+    <meta name="twitter:description" content="I&amp;rsquo;m currently working on a web application on Java EE7 stack and I&amp;rsquo;ve integrated Apache Shiro with CAS for security. Everything goes well, except th"/>
+    <meta name="twitter:url" content="https://jmchung.github.io/post/apache-shiro-nullpointerexception-after-logout-on-glassfish-4.1/" />
+    <meta name="twitter:site" content="@"/>
+
+    <meta property="og:site_name" content="" />
+    <meta property="og:title" content="Apache Shiro NullPointerException after Logout on GlassFish 4.1 &middot; Code with :)" />
+    <meta property="og:url" content="https://jmchung.github.io/post/apache-shiro-nullpointerexception-after-logout-on-glassfish-4.1/" />
+    
+
+    <meta property="og:type" content="article" />
+    <meta property="og:description" content="I&amp;rsquo;m currently working on a web application on Java EE7 stack and I&amp;rsquo;ve integrated Apache Shiro with CAS for security. Everything goes well, except th" />
+
+    <meta property="article:published_time" content="2014-10-28T00:00:00Z" />
+    <meta property="article:tag" content="Apache Shiro" /><meta property="article:tag" content="GlassFish" />
+
+    <meta property="og:image" content="https://jmchung.github.io/img/1280px-GlassFish-logo.jpg"/>
+
+
+    <meta name="generator" content="Hugo 0.53" />
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" type="text/css" href="https://jmchung.github.io/built/screen.css" />
+    <link rel="stylesheet" type="text/css" href="https://jmchung.github.io/css/casper-two.css" /> 
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.14.2/styles/default.min.css" />
+     <link rel="stylesheet" href="https://jmchung.github.io/css/custom.css" /> 
+
+     
+
+    
+<script type="text/javascript"
+        async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$'], ['\[\[','\]\]']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+    TeX: { equationNumbers: { autoNumber: "AMS" },
+         extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+});
+
+MathJax.Hub.Queue(function() {
+    
+    
+    
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<style>
+code.has-jax {
+    font: inherit;
+    font-size: 100%;
+    background: inherit;
+    border: inherit;
+    color: #515151;
+}
+</style>
+
+</head>
+
+
+<body class="post-template">
+  <div class="site-wrapper"> 
+
+<header class="site-header outer">
+  <div class="inner">
+    <nav class="site-nav">
+      <div class="site-nav-left">
+
+        <ul class="nav" role="menu">
+        
+        
+        
+            <li class="" role="menuitem">
+              <a href="https://jmchung.github.io/">Home</a>
+            </li>
+        
+            <li class="" role="menuitem">
+              <a href="https://jmchung.github.io/tags/">Tags</a>
+            </li>
+        
+      </ul></div>
+
+      <div class="site-nav-right">
+        <div class="social-links">
+                    
+
+                    
+
+                    <a class="social-link" href="https://github.com/jmchung" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a>
+
+                    <a class="social-link" href="https://www.linkedin.com/in/jmchung" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 50 512 512"><path d="M150.65,100.682c0,27.992-22.508,50.683-50.273,50.683c-27.765,0-50.273-22.691-50.273-50.683 C50.104,72.691,72.612,50,100.377,50C128.143,50,150.65,72.691,150.65,100.682z M143.294,187.333H58.277V462h85.017V187.333z M279.195,187.333h-81.541V462h81.541c0,0,0-101.877,0-144.181c0-38.624,17.779-61.615,51.807-61.615 c31.268,0,46.289,22.071,46.289,61.615c0,39.545,0,144.181,0,144.181h84.605c0,0,0-100.344,0-173.915 s-41.689-109.131-99.934-109.131s-82.768,45.369-82.768,45.369V187.333z" /></svg></a>
+
+                    
+        </div>  
+            
+      </div>
+
+    </nav>  
+
+  </div>
+</header>
+
+<main id="site-main" class="site-main outer" role="main">
+  <div class="inner">
+    
+      <article class="post-full post"> 
+    <header class="post-full-header">
+        <section class="post-full-meta">
+            <time class="post-full-meta-date" datetime="2014-10-28">28 October 2014</time>
+                <span class="date-divider">/</span> <a href="https://jmchung.github.io/tags/apache-shiro/">#Apache Shiro</a>&nbsp;<a href="https://jmchung.github.io/tags/glassfish/">#GlassFish</a>&nbsp;
+        </section>
+        <h1 class="post-full-title">Apache Shiro NullPointerException after Logout on GlassFish 4.1</h1>
+    </header>
+    
+    <figure class="post-full-image" style="background-image: url(https://jmchung.github.io/img/1280px-GlassFish-logo.jpg)">
+    </figure>
+
+    <section class="post-full-content">
+        <div class="kg-card-markdown">
+        
+
+<p>I&rsquo;m currently working on a web application on Java EE7 stack and I&rsquo;ve integrated Apache Shiro with CAS for security. Everything goes well, except the GlassFish 4.1 (build 13) server logs keep getting filled with following errors when calling <code>logout()</code> method:</p>
+
+<!-- more -->
+
+<pre><code class="language-plaintext">Info:   Session event listener threw exception
+java.lang.NullPointerException
+    at org.jboss.weld.servlet.WeldTerminalListener.getSessionContext(WeldTerminalListener.java:65)
+    at org.jboss.weld.servlet.WeldTerminalListener.sessionDestroyed(WeldTerminalListener.java:57)
+    at org.apache.catalina.session.StandardSession.expire(StandardSession.java:910)
+    at org.apache.catalina.session.StandardSession.expire(StandardSession.java:854)
+    at org.apache.catalina.session.StandardSession.expire(StandardSession.java:842)
+    at org.apache.catalina.session.StandardSession.invalidate(StandardSession.java:1603)
+    at org.apache.catalina.session.StandardSessionFacade.invalidate(StandardSessionFacade.java:204)
+    at org.apache.shiro.web.session.HttpServletSession.stop(HttpServletSession.java:113)
+    at org.apache.shiro.session.ProxiedSession.stop(ProxiedSession.java:107)
+    at org.apache.shiro.subject.support.DelegatingSubject$StoppingAwareProxiedSession.stop(DelegatingSubject.java:419)
+    at org.apache.shiro.mgt.DefaultSecurityManager.stopSession(DefaultSecurityManager.java:581)
+    at org.apache.shiro.mgt.DefaultSecurityManager.logout(DefaultSecurityManager.java:567)
+    at org.apache.shiro.subject.support.DelegatingSubject.logout(DelegatingSubject.java:363)
+    at org.apache.shiro.web.filter.authc.LogoutFilter.preHandle(LogoutFilter.java:71)
+    at org.apache.shiro.web.servlet.AdviceFilter.doFilterInternal(AdviceFilter.java:131)
+    at org.apache.shiro.web.servlet.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:125)
+    at org.apache.shiro.web.servlet.ProxiedFilterChain.doFilter(ProxiedFilterChain.java:66)
+    at org.apache.shiro.web.servlet.AbstractShiroFilter.executeChain(AbstractShiroFilter.java:449)
+    at org.apache.shiro.web.servlet.AbstractShiroFilter$1.call(AbstractShiroFilter.java:365)
+    at org.apache.shiro.subject.support.SubjectCallable.doCall(SubjectCallable.java:90)
+    at org.apache.shiro.subject.support.SubjectCallable.call(SubjectCallable.java:83)
+    at org.apache.shiro.subject.support.DelegatingSubject.execute(DelegatingSubject.java:383)
+    at org.apache.shiro.web.servlet.AbstractShiroFilter.doFilterInternal(AbstractShiroFilter.java:362)
+    at org.apache.shiro.web.servlet.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:125)
+    at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:256)
+    at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:214)
+    at org.jasig.cas.client.session.SingleSignOutFilter.doFilter(SingleSignOutFilter.java:76)
+    at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:256)
+    at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:214)
+    at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:316)
+    at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:160)
+    at org.apache.catalina.core.StandardPipeline.doInvoke(StandardPipeline.java:734)
+    at org.apache.catalina.core.StandardPipeline.invoke(StandardPipeline.java:673)
+    at com.sun.enterprise.web.WebPipeline.invoke(WebPipeline.java:99)
+    at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:174)
+    at org.apache.catalina.connector.CoyoteAdapter.doService(CoyoteAdapter.java:415)
+    at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:282)
+    at com.sun.enterprise.v3.services.impl.ContainerMapper$HttpHandlerCallable.call(ContainerMapper.java:459)
+    at com.sun.enterprise.v3.services.impl.ContainerMapper.service(ContainerMapper.java:167)
+    at org.glassfish.grizzly.http.server.HttpHandler.runService(HttpHandler.java:201)
+    at org.glassfish.grizzly.http.server.HttpHandler.doHandle(HttpHandler.java:175)
+    at org.glassfish.grizzly.http.server.HttpServerFilter.handleRead(HttpServerFilter.java:235)
+    at org.glassfish.grizzly.filterchain.ExecutorResolver$9.execute(ExecutorResolver.java:119)
+    at org.glassfish.grizzly.filterchain.DefaultFilterChain.executeFilter(DefaultFilterChain.java:284)
+    at org.glassfish.grizzly.filterchain.DefaultFilterChain.executeChainPart(DefaultFilterChain.java:201)
+    at org.glassfish.grizzly.filterchain.DefaultFilterChain.execute(DefaultFilterChain.java:133)
+    at org.glassfish.grizzly.filterchain.DefaultFilterChain.process(DefaultFilterChain.java:112)
+    at org.glassfish.grizzly.ProcessorExecutor.execute(ProcessorExecutor.java:77)
+    at org.glassfish.grizzly.nio.transport.TCPNIOTransport.fireIOEvent(TCPNIOTransport.java:561)
+    at org.glassfish.grizzly.strategies.AbstractIOStrategy.fireIOEvent(AbstractIOStrategy.java:112)
+    at org.glassfish.grizzly.strategies.WorkerThreadIOStrategy.run0(WorkerThreadIOStrategy.java:117)
+    at org.glassfish.grizzly.strategies.WorkerThreadIOStrategy.access$100(WorkerThreadIOStrategy.java:56)
+    at org.glassfish.grizzly.strategies.WorkerThreadIOStrategy$WorkerThreadRunnable.run(WorkerThreadIOStrategy.java:137)
+    at org.glassfish.grizzly.threadpool.AbstractThreadPool$Worker.doWork(AbstractThreadPool.java:565)
+    at org.glassfish.grizzly.threadpool.AbstractThreadPool$Worker.run(AbstractThreadPool.java:545)
+    at java.lang.Thread.run(Thread.java:745)
+</code></pre>
+
+<p>There are also differences among different application servers such as GlassFish 4.1 and WildFly 8.1.0.Final integrate with Apache Shiro 1.2.3. This brings two problems: the NullPointerException (NPE) and the logout will not work properly.</p>
+
+<h2 id="different-ways-to-logout">Different Ways to Logout</h2>
+
+<blockquote>
+<p>In web environments, Shiro&rsquo;s default session manager SessionManager implementation is the ServletContainerSessionManager. This very simple implementation delegates all session management duties (including session clustering if the servlet container supports it) to the runtime Servlet container.</p>
+
+<p>A benefit of using this default is that apps that work with existing servlet container session configuration (timeout, any container-specific clustering mechanisms, etc) will work as expected.</p>
+
+<p>A downside of this default is that you are tied to the servlet container&rsquo;s specific session behavior.</p>
+</blockquote>
+
+<p>Ideally, when we explicitly call the Shiro&rsquo;s SecurityUtil.getSubject().logout() or  javax.servlet.http.HttpSession.invalidate() will trigger the Shiro&rsquo;s Session.stop to invalidate this session and releases all associated resources. However, I got inconsistent outcomes among the different Java EE application servers. Let <code>NPE</code> denotes the session event listener threw NullPointerException, <code>NWP</code> stands for logout not working properly and <code>FUN</code> represents the logout process is functional, which means the current subject will become unauthenticated. Subsequently, we evaluate several logout ways to invalidate the session, let <code>SESS_INVAL</code> denotes HttpServletRequest.getSession().invalidate(), <code>REQ_LOGOUT</code> for HttpServletRequest.logout() and <code>SEC_LOGOUT</code> represents Shiro&rsquo;s SecurityUtils.getSubject().logout(). Here are the results of several combinations of application servers and logout approaches.</p>
+
+<table>
+<thead>
+<tr>
+<th></th>
+<th>SESS_INVAL</th>
+<th>REQ_LOGOUT</th>
+<th>SEC_LOGOUT</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>GlassFish 4.1</td>
+<td>NPE / FUN</td>
+<td>NWP</td>
+<td>NPE / FUN</td>
+</tr>
+
+<tr>
+<td>WildFly 8.1.0.Final</td>
+<td>FUN</td>
+<td>NWP</td>
+<td>FUN</td>
+</tr>
+</tbody>
+</table>
+
+<p><em>Table 1: The results of different logout approaches among Java EE application servers.</em></p>
+
+<h2 id="workaround-solution">Workaround Solution</h2>
+
+<p>The following context is derived from the authenticated session:</p>
+
+<pre><code class="language-plaintext">Info:   org.jboss.weld.context.conversation.ConversationIdGenerator &gt;&gt; org.jboss.weld.context.conversation.ConversationIdGenerator@45fcb33c
+Info:   org.jboss.weld.context.ConversationContext.conversations &gt;&gt; {}
+Info:   org.apache.shiro.subject.support.DefaultSubjectContext_AUTHENTICATED_SESSION_KEY &gt;&gt; true
+Info:   org.apache.shiro.web.session.HttpServletSession.HOST_SESSION_KEY &gt;&gt; 127.0.0.1
+Info:   org.apache.shiro.subject.support.DefaultSubjectContext_PRINCIPALS_SESSION_KEY &gt;&gt; johnsmith@xyz.com,{}
+</code></pre>
+
+<p>Our idea is to remove attributes with regard to Shiro (i.e., org.apache.shiro.*) from the authenticated-session to avoid raising NullPointerException. Here is an example a logout-servlet to prevent the exception from session event listener in servlet containers.</p>
+
+<pre><code class="language-java">public class LogoutServlet extends HttpServlet {
+    ...
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        ...
+        HttpSession session = request.getSession();
+        for (Enumeration e = session.getAttributeNames(); e.hasMoreElements();) {
+            String attribName = (String) e.nextElement();
+            if (attribName.startsWith(&quot;org.apache.shiro&quot;)) {
+                session.removeAttribute(attribName);
+            }
+        }
+        
+        response.sendRedirect(https://cas.somewhere.com/logout?service=http://myapp.com);
+        
+    }
+    ...
+
+}
+</code></pre>
+    
+        </div>
+    </section>
+
+    <footer class="post-full-footer">
+      <section class="author-card">
+        <img class="author-profile-image" src="https://jmchung.github.io/img/10312671_10202997579792812_6153536628954061057_n.jpg" alt="Author" />
+        <section class="author-card-content">
+            <h4 class="author-card-name"><a href="https://jmchung.github.io/">Jen-Ming Chung</a></h4>
+                <p>Software Engineer</p>
+        </section>
+      </section>
+    </footer>
+</article>
+    
+    
+    
+
+<div id="disqus_thread"></div>
+<script>
+
+
+
+
+var disqus_config = function () {
+this.page.url = "https:\/\/jmchung.github.io\/post\/apache-shiro-nullpointerexception-after-logout-on-glassfish-4.1\/";  
+this.page.identifier = "https:\/\/jmchung.github.io\/post\/apache-shiro-nullpointerexception-after-logout-on-glassfish-4.1\/"; 
+};
+
+(function() { 
+var d = document, s = d.createElement('script');
+s.src = 'https://octopressongithub.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  </div>
+</main>
+
+
+<aside class="read-next outer">
+  <div class="inner">
+    <div class="read-next-feed">      
+      
+<article class="read-next-card" 
+            style="background-image: url(https://jmchung.github.io/img/blog-cover.jpg);" >
+    <header class="read-next-card-header">
+        <small class="read-next-card-header-sitetitle">&mdash; Code with :) &mdash;</small>
+        
+        <h3 class="read-next-card-header-title"><a href="https://jmchung.github.io/tags/apache-shiro/">#Apache Shiro</a></h3>
+    </header>
+    <div class="read-next-divider"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 14.5s2 3 5 3 5.5-2.463 5.5-5.5S21 6.5 18 6.5c-5 0-7 11-12 11C2.962 17.5.5 15.037.5 12S3 6.5 6 6.5s4.5 3.5 4.5 3.5"/></svg>
+    </div>
+
+    <div class="read-next-card-content">
+      
+        <ul>
+          <li><a href="https://jmchung.github.io/post/perceptron-learning-algorithm/">Perceptron Learning Algorithm</a></li>            
+        
+          <li><a href="https://jmchung.github.io/post/running-hadoop-on-centos-6-multi-node-cluster/">Running Hadoop on CentOS 6 (Multi-Node Cluster)</a></li>            
+        
+          <li><a href="https://jmchung.github.io/post/converting-isodate-from-mongodb/">Converting ISODate from MongoDB</a></li>            
+        
+          <li><a href="https://jmchung.github.io/post/using-amazon-s3-as-a-private-maven-repository/">Using Amazon S3 as a Private Maven Repository</a></li>            
+        </ul>
+    </div>
+    <footer class="read-next-card-footer">
+      
+        <a href="https://jmchung.github.io/tags/apache-shiro/">See all related posts →</a>
+    </footer>
+</article>
+
+
+      
+      <article class="post-card post"> 
+    
+    <a class="post-card-image-link" href="https://jmchung.github.io/post/using-amazon-s3-as-a-private-maven-repository/">
+      <div class="post-card-image" style="background-image: url(https://jmchung.github.io/img/tags.jpg)"></div>
+    </a>
+    
+
+    <div class="post-card-content">
+      <a class="post-card-content-link" href="https://jmchung.github.io/post/using-amazon-s3-as-a-private-maven-repository/">
+          <header class="post-card-header">
+              <span class="post-card-tags">
+              #AWS 
+              #Maven  </span>
+              
+              <h2 class="post-card-title">Using Amazon S3 as a Private Maven Repository</h2>
+          </header>
+          <section class="post-card-excerpt">
+              
+                <p>This article is a quick tutorial to setup a private maven repository using Amazon S3 instead of Nexus or Artifactory.
+First we need to create a S3 bucket used to store two types of maven artifacts: stores two types of artifacts: releases and snapshots.
+repository.example.com/[snapshots, releases]  Since we want a private repository, we can securely control access to this bucket for our users by leveraging AWS Identity and Access Management (IAM). ...  </p>
+              
+          </section>
+      </a>
+
+      <footer class="post-card-meta">
+          <img class="author-profile-image" src="https://jmchung.github.io/img/10312671_10202997579792812_6153536628954061057_n.jpg" alt="Author" />
+          <span class="post-card-author"><a href="https://jmchung.github.io/">Jen-Ming Chung</a></span>
+      </footer>
+    </div>
+</article>
+      
+      
+      <article class="post-card post"> 
+    
+    <a class="post-card-image-link" href="https://jmchung.github.io/post/integrating-apache-shiro-with-cas-authentication-via-ldap/">
+      <div class="post-card-image" style="background-image: url(https://jmchung.github.io/img/pawel-czerwinski-713956-unsplash.jpg)"></div>
+    </a>
+    
+
+    <div class="post-card-content">
+      <a class="post-card-content-link" href="https://jmchung.github.io/post/integrating-apache-shiro-with-cas-authentication-via-ldap/">
+          <header class="post-card-header">
+              <span class="post-card-tags">
+              #Apache Shiro 
+              #SSO 
+              #CAS 
+              #LDAP  </span>
+              
+              <h2 class="post-card-title">Integrating Apache Shiro with CAS Authentication via LDAP</h2>
+          </header>
+          <section class="post-card-excerpt">
+              
+                <p>In this post I want to share how to setup SSO with CAS and LDAP authentication, and then demonstrate how to integrate Apache Shiro with CAS in the web application.
+An Example of An Individual LDAP Entry The following entry which represented in LDIF would be used to login the CAS. In this case, the username will be the full email address (case-insensitive) and the password is the value of userPassword attribute. ...  </p>
+              
+          </section>
+      </a>
+
+      <footer class="post-card-meta">
+          <img class="author-profile-image" src="https://jmchung.github.io/img/10312671_10202997579792812_6153536628954061057_n.jpg" alt="Author" />
+          <span class="post-card-author"><a href="https://jmchung.github.io/">Jen-Ming Chung</a></span>
+      </footer>
+    </div>
+</article>
+      
+    </div>
+  </div>
+</aside>
+
+<div class="floating-header">
+  <div class="floating-header-logo">
+    <a href="https://jmchung.github.io/">
+      
+      <span></span>
+    </a>
+  </div>
+  <span class="floating-header-divider">&mdash;</span>
+  <div class="floating-header-title">Apache Shiro NullPointerException after Logout on GlassFish 4.1</div>
+  
+  <progress class="progress" value="0">
+    <div class="progress-container">
+      <span class="progress-bar"></span>
+    </div>
+  </progress>
+</div>
+
+
+
+<footer class="site-footer outer">
+  <div class="site-footer-content inner">
+    <section class="copyright" style="line-height: 1.3em;">
+      <a href="https://jmchung.github.io/"></a> © 2019 <br>
+      
+    </section>
+    <nav class="site-footer-nav">
+        <a href="https://jmchung.github.io/">Latest Posts</a>
+        
+        
+        <a href="https://github.com/jmchung" target="_blank" rel="noopener">Github</a>
+        <a href="https://www.linkedin.com/in/jmchung" target="_blank" rel="noopener">LinkedIn</a>
+        
+    </nav>  
+  </div>
+</footer>
+
+</div>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.14.2/highlight.min.js"></script>
+<script type="text/javascript" src="//code.jquery.com/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="https://jmchung.github.io/js/jquery.fitvids.js"></script>
+
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+    <script>
+
+
+
+
+
+$(document).ready(function () {
+    
+    var $postContent = $(".post-full-content");
+    $postContent.fitVids();
+    
+
+    var progressBar = document.querySelector('progress');
+    var header = document.querySelector('.floating-header');
+    var title = document.querySelector('.post-full-title');
+
+    var lastScrollY = window.scrollY;
+    var lastWindowHeight = window.innerHeight;
+    var lastDocumentHeight = $(document).height();
+    var ticking = false;
+
+    function onScroll() {
+        lastScrollY = window.scrollY;
+        requestTick();
+    }
+
+    function onResize() {
+        lastWindowHeight = window.innerHeight;
+        lastDocumentHeight = $(document).height();
+        requestTick();
+    }
+
+    function requestTick() {
+        if (!ticking) {
+            requestAnimationFrame(update);
+        }
+        ticking = true;
+    }
+
+    function update() {
+        var trigger = title.getBoundingClientRect().top + window.scrollY;
+        var triggerOffset = title.offsetHeight + 35;
+        var progressMax = lastDocumentHeight - lastWindowHeight;
+
+        
+        if (lastScrollY >= trigger + triggerOffset) {
+            header.classList.add('floating-active');
+        } else {
+            header.classList.remove('floating-active');
+        }
+
+        progressBar.setAttribute('max', progressMax);
+        progressBar.setAttribute('value', lastScrollY);
+
+        ticking = false;
+    }
+
+    window.addEventListener('scroll', onScroll, {passive: true});
+    window.addEventListener('resize', onResize, false);
+
+    update();
+});
+</script>
+</body></html>

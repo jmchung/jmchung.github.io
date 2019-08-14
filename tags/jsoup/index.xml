@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Jsoup on </title>
+    <link>https://jmchung.github.io/tags/jsoup/</link>
+    <description>Recent content in Jsoup on </description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-US</language>
+    <lastBuildDate>Fri, 25 Oct 2013 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://jmchung.github.io/tags/jsoup/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>How to solve jsoup does not get complete HTML document</title>
+      <link>https://jmchung.github.io/post/how-to-solve-jsoup-does-not-get-complete-html-document/</link>
+      <pubDate>Fri, 25 Oct 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://jmchung.github.io/post/how-to-solve-jsoup-does-not-get-complete-html-document/</guid>
+      <description>jsoup: Java HTML Parser.
+ Where crawling web pages by using jsoup, it only returns parts of HTML content if the document size is too large, e.g., the below example transferred over 6MB content. According to the jsoup&amp;rsquo;s API Reference the default maximum is 1MB. So that we can set jsoup connection with maxBodySize to zero to get rid of this limitation and may accompany with sufficient timeout property.</description>
+    </item>
+    
+  </channel>
+</rss>

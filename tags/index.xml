@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tags on </title>
+    <link>https://jmchung.github.io/tags/</link>
+    <description>Recent content in Tags on </description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-US</language>
+    <lastBuildDate>Tue, 28 Oct 2014 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://jmchung.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Apache Shiro</title>
+      <link>https://jmchung.github.io/tags/apache-shiro/</link>
+      <pubDate>Tue, 28 Oct 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://jmchung.github.io/tags/apache-shiro/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Automount</title>
+      <link>https://jmchung.github.io/tags/automount/</link>
+      <pubDate>Tue, 27 Aug 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://jmchung.github.io/tags/automount/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Aws</title>
+      <link>https://jmchung.github.io/tags/aws/</link>
+      <pubDate>Sun, 01 Mar 2015 00:00:00 +0000</pubDate>
+      
+      <guid>https://jmchung.github.io/tags/aws/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Cas</title>
+      <link>https://jmchung.github.io/tags/cas/</link>
+      <pubDate>Fri, 03 Oct 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://jmchung.github.io/tags/cas/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Centos</title>
+      <link>https://jmchung.github.io/tags/centos/</link>
+      <pubDate>Fri, 06 Sep 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://jmchung.github.io/tags/centos/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Contextresolver</title>
+      <link>https://jmchung.github.io/tags/contextresolver/</link>
+      <pubDate>Wed, 18 Jun 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://jmchung.github.io/tags/contextresolver/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Ebs</title>
+      <link>https://jmchung.github.io/tags/ebs/</link>
+      <pubDate>Tue, 27 Aug 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://jmchung.github.io/tags/ebs/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Ec2</title>
+      <link>https://jmchung.github.io/tags/ec2/</link>
+      <pubDate>Tue, 27 Aug 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://jmchung.github.io/tags/ec2/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Glassfish</title>
+      <link>https://jmchung.github.io/tags/glassfish/</link>
+      <pubDate>Tue, 28 Oct 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://jmchung.github.io/tags/glassfish/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Hadoop</title>
+      <link>https://jmchung.github.io/tags/hadoop/</link>
+      <pubDate>Mon, 08 Oct 2012 00:00:00 +0000</pubDate>
+      
+      <guid>https://jmchung.github.io/tags/hadoop/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Java</title>
+      <link>https://jmchung.github.io/tags/java/</link>
+      <pubDate>Mon, 30 Dec 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://jmchung.github.io/tags/java/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Java Ee</title>
+      <link>https://jmchung.github.io/tags/java-ee/</link>
+      <pubDate>Sat, 14 Dec 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://jmchung.github.io/tags/java-ee/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Jax Rs</title>
+      <link>https://jmchung.github.io/tags/jax-rs/</link>
+      <pubDate>Sat, 14 Dec 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://jmchung.github.io/tags/jax-rs/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Jersey</title>
+      <link>https://jmchung.github.io/tags/jersey/</link>
+      <pubDate>Wed, 18 Jun 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://jmchung.github.io/tags/jersey/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Jsoup</title>
+      <link>https://jmchung.github.io/tags/jsoup/</link>
+      <pubDate>Fri, 25 Oct 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://jmchung.github.io/tags/jsoup/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Ldap</title>
+      <link>https://jmchung.github.io/tags/ldap/</link>
+      <pubDate>Fri, 03 Oct 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://jmchung.github.io/tags/ldap/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Machine Learning</title>
+      <link>https://jmchung.github.io/tags/machine-learning/</link>
+      <pubDate>Tue, 07 May 2019 00:51:00 +0800</pubDate>
+      
+      <guid>https://jmchung.github.io/tags/machine-learning/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Map Reduce</title>
+      <link>https://jmchung.github.io/tags/map-reduce/</link>
+      <pubDate>Mon, 30 Dec 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://jmchung.github.io/tags/map-reduce/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Maven</title>
+      <link>https://jmchung.github.io/tags/maven/</link>
+      <pubDate>Sun, 01 Mar 2015 00:00:00 +0000</pubDate>
+      
+      <guid>https://jmchung.github.io/tags/maven/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Mongodb</title>
+      <link>https://jmchung.github.io/tags/mongodb/</link>
+      <pubDate>Mon, 30 Dec 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://jmchung.github.io/tags/mongodb/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Morphia</title>
+      <link>https://jmchung.github.io/tags/morphia/</link>
+      <pubDate>Mon, 30 Dec 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://jmchung.github.io/tags/morphia/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Neural Networks</title>
+      <link>https://jmchung.github.io/tags/neural-networks/</link>
+      <pubDate>Tue, 07 May 2019 00:51:00 +0800</pubDate>
+      
+      <guid>https://jmchung.github.io/tags/neural-networks/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Nosql</title>
+      <link>https://jmchung.github.io/tags/nosql/</link>
+      <pubDate>Thu, 15 Aug 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://jmchung.github.io/tags/nosql/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Restful</title>
+      <link>https://jmchung.github.io/tags/restful/</link>
+      <pubDate>Mon, 29 Oct 2012 00:00:00 +0000</pubDate>
+      
+      <guid>https://jmchung.github.io/tags/restful/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Simplemodule</title>
+      <link>https://jmchung.github.io/tags/simplemodule/</link>
+      <pubDate>Wed, 18 Jun 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://jmchung.github.io/tags/simplemodule/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Sso</title>
+      <link>https://jmchung.github.io/tags/sso/</link>
+      <pubDate>Fri, 03 Oct 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://jmchung.github.io/tags/sso/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Swagger</title>
+      <link>https://jmchung.github.io/tags/swagger/</link>
+      <pubDate>Sat, 14 Dec 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://jmchung.github.io/tags/swagger/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Tomcat</title>
+      <link>https://jmchung.github.io/tags/tomcat/</link>
+      <pubDate>Fri, 06 Sep 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://jmchung.github.io/tags/tomcat/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Machine Learning on </title>
+    <link>https://jmchung.github.io/tags/machine-learning/</link>
+    <description>Recent content in Machine Learning on </description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-US</language>
+    <lastBuildDate>Tue, 07 May 2019 00:51:00 +0800</lastBuildDate>
+    
+	<atom:link href="https://jmchung.github.io/tags/machine-learning/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Perceptron Learning Algorithm</title>
+      <link>https://jmchung.github.io/post/perceptron-learning-algorithm/</link>
+      <pubDate>Tue, 07 May 2019 00:51:00 +0800</pubDate>
+      
+      <guid>https://jmchung.github.io/post/perceptron-learning-algorithm/</guid>
+      <description>This note illustrates the use of perceptron learning algorithm to identify the discriminant function with weight to partition the linearly separable data step-by-step. The material mainly outlined in Kröse et al. [1] work, and the example is from the Janecek&amp;rsquo;s [2] slides.
+In machine learning, the perceptron is an supervised learning algorithm used as a binary classifier, which is used to identify whether a input data belongs to a specific group (class) or not.</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Jersey on </title>
+    <link>https://jmchung.github.io/tags/jersey/</link>
+    <description>Recent content in Jersey on </description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-US</language>
+    <lastBuildDate>Wed, 18 Jun 2014 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://jmchung.github.io/tags/jersey/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>How to Customise the Jackson JSON ObjectMapper in Java EE Enterprise Application</title>
+      <link>https://jmchung.github.io/post/how-to-customise-the-jackson-json-objectmapper-in-java-ee-enterprise-application/</link>
+      <pubDate>Wed, 18 Jun 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://jmchung.github.io/post/how-to-customise-the-jackson-json-objectmapper-in-java-ee-enterprise-application/</guid>
+      <description>Assume we have a naive User POJO class with a BSON Type ObjectId field, i.e., id.
+public class User { private ObjectId id; private String username; private String password; private Date createdAt; public getters/setters; ...  We can expect the following outputs from our REST services which is not a String with 24 hex characters.
+{ &amp;quot;_id&amp;quot;: { &amp;quot;new&amp;quot;: false, &amp;quot;machine&amp;quot;: 805608948, &amp;quot;timeSecond&amp;quot;: 1403022678, &amp;quot;inc&amp;quot;: -871980150, &amp;quot;time&amp;quot;: 1403022678000 }, &amp;quot;username&amp;quot;: &amp;quot;John Smith&amp;quot;, &amp;quot;password&amp;quot;: &amp;quot;am9obiBzbWl0aCBwYXNzd29yZA&amp;quot;, &amp;quot;createdAt&amp;quot;: 1403022678341 }  As we know, it can be solved by using the Jackson annotation for configuring Serializer class to serialize the associated value.</description>
+    </item>
+    
+    <item>
+      <title>Integrating Swagger into JAX-RS with Java EE 6 specification</title>
+      <link>https://jmchung.github.io/post/integrating-swagger-into-jax-rs-with-java-ee-6-specification/</link>
+      <pubDate>Sat, 14 Dec 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://jmchung.github.io/post/integrating-swagger-into-jax-rs-with-java-ee-6-specification/</guid>
+      <description>Introduction Swagger is an awesome framework we often used to describe, consume and visualize our RESTful web services. Typically, we use Tomcat with Jersey as a servlet, then specify the Swagger package and Swagger Configuration class into web.xml, finally annotate the resources, methods and models to complete the configurations. Our team recently built a Java EE 7 application for a RESTful web service. The goal of this article is to share our experiences of configuring Swagger in Glassfish 4 without a web.</description>
+    </item>
+    
+    <item>
+      <title>Jersey Test Framework with Maven</title>
+      <link>https://jmchung.github.io/post/jersey-test-framework-with-maven/</link>
+      <pubDate>Tue, 05 Mar 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://jmchung.github.io/post/jersey-test-framework-with-maven/</guid>
+      <description>Introduction This memo records the issues while executing the unit-test with Jersey Test framework. We use the Jersey framework to implement the RESTful Web services and employ the Maven to manage the dependencies in project. First of all, we add the jersey-test-framework-grizzly2 dependency to enable the test framework in pom.xml; Second, we deploy the application using Jersey specific servlet in web.xml. Finally, we have the following java files within Maven Archetype – maven-archetype-webapp:</description>
+    </item>
+    
+    <item>
+      <title>A Jersey POJOMapping Example in Mapping Form Parameters</title>
+      <link>https://jmchung.github.io/post/a-jersey-pojomapping-example-in-mapping-form-parameters/</link>
+      <pubDate>Mon, 29 Oct 2012 00:00:00 +0000</pubDate>
+      
+      <guid>https://jmchung.github.io/post/a-jersey-pojomapping-example-in-mapping-form-parameters/</guid>
+      <description>Jersey, RESTful Web Services in Java.
+ In Java Servlet circumstance, we usually harvest the form parameters by using request.getParameter(“FORM_FIELD_NAME”) syntax. Now we can do it more elegant while enabling Jsersey’s POJOMapping features. The following example demonstrates the account registration scenario. Here we have a Account class, i.e., Account.java:
+public class Account { private String email; @JsonProperty(&amp;quot;email&amp;quot;) public String getEmail() { return email; } public void setEmail(String email) { this.</description>
+    </item>
+    
+  </channel>
+</rss>

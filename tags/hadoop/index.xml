@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Hadoop on </title>
+    <link>https://jmchung.github.io/tags/hadoop/</link>
+    <description>Recent content in Hadoop on </description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-US</language>
+    <lastBuildDate>Mon, 08 Oct 2012 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://jmchung.github.io/tags/hadoop/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Running Hadoop on CentOS 6 (Multi-Node Cluster)</title>
+      <link>https://jmchung.github.io/post/running-hadoop-on-centos-6-multi-node-cluster/</link>
+      <pubDate>Mon, 08 Oct 2012 00:00:00 +0000</pubDate>
+      
+      <guid>https://jmchung.github.io/post/running-hadoop-on-centos-6-multi-node-cluster/</guid>
+      <description>This demonstration has been tested with the following software versions and network settings:
+ Oracle VM VirtualBox 4.1.22 r80657 CentOS-6.3_x86_64 with Minimal Installation Hadoop 1.0.3     Hostname IP Address Roles     hdp01 192.168.1.39 NameNode, JobTracker and DataNode   hdp02 192.168.1.40 DataNode, TaskTracker   hdp03 192.168.1.41 DataNode, TaskTracker    Candidate CentOS VMs After installing the CentOS in VirtualBox, patch up system by applying all updates and install wget tool for future use.</description>
+    </item>
+    
+  </channel>
+</rss>
